@@ -30,6 +30,7 @@ func main() {
 
 	buf := bufio.NewReader(os.Stdin)
 
+	// * NOTE:
 	// Ensure you set your environment variable before using this example, or enter it when prompted
 	// export SLIDE_AUTH_TOKEN=xxxabc123
 	slideAuthToken := os.Getenv("SLIDE_AUTH_TOKEN")
@@ -45,32 +46,36 @@ func main() {
 		}
 	}
 
-	slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n")) // slide.WithCustomRoundtripper(
+	// * NOTE:
+	// If you do not want to make actual network requests, include a custom roundtripper, similar to the example below
+	// slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n"), slide.WithCustomRoundtripper(
 	// 	roundtripper.MockNetworkQueue(
 	// 		[]roundtripper.MockRoundTripFunc{
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
-	// 				FilePath:   "../../testdata/responses/agent/list_page1_200.json",
+	// 				FilePath:   "./mock_network_responses/agent_list_page1_200.json",
 	// 				StatusCode: http.StatusOK,
 	// 			}),
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
-	// 				FilePath:   "../../testdata/responses/agent/list_page2_200.json",
+	// 				FilePath:   "./mock_network_responses/agent_list_page2_200.json",
 	// 				StatusCode: http.StatusOK,
 	// 			}),
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
-	// 				FilePath:   "../../testdata/responses/snapshot/list_page1_200.json",
+	// 				FilePath:   "./mock_network_responses/snapshot_list_page1_200.json",
 	// 				StatusCode: http.StatusOK,
 	// 			}),
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
-	// 				FilePath:   "../../testdata/responses/snapshot/list_page2_200.json",
+	// 				FilePath:   "./mock_network_responses/snapshot_list_page2_200.json",
 	// 				StatusCode: http.StatusOK,
 	// 			}),
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
-	// 				FilePath:   "../../testdata/responses/restore_file/create_201.json",
+	// 				FilePath:   "./mock_network_responses/restore_file_create_201.json",
 	// 				StatusCode: http.StatusCreated,
 	// 			}),
 	// 		},
 	// 	),
-	// ),
+	// ))
+
+	slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n"))
 
 	ctx := context.Background()
 
