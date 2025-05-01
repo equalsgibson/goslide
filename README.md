@@ -24,13 +24,11 @@
 
 </div>
 
-# slide
-
 ## Getting Started
 
 This is a library that allows developers to interact with the publicly accessible REST API for [Slide](https://slide.tech), using Go. 
 
-> **Note**  
+> **Info**  
 > Slide is a modern backup solution, purpose built for MSPs (Managed Service Providers)
 
 For a full API reference, see the official [Slide API Documentation](https://docs.slide.tech/)
@@ -39,15 +37,36 @@ For a full API reference, see the official [Slide API Documentation](https://doc
 
   - Download and install Go, version 1.23+, from the [official Go website](https://go.dev/doc/install).
   - Obtain your Slide API Token and review the **[Authentication](https://docs.slide.tech/api/#description/authentication)** section.
+  - Open your editor of choice, create a new directory and initialize your Go project.
+  - Open a terminal and navigate to the directory of your project, then run: `go get github.com/equalsgibson/slide@latest`
 
-### Install
+### Quickstart
+After following the above steps, you could create a simple `main.go` file and include the following to list all your current Slide Devices:
+  
+![Quickstart Demo](/ops/assets/quickstart.gif)
 
-To install the latest version of the library, use `go get`:
-```shell
-go get github.com/equalsgibson/slide@latest
+```golang
+...
+	// Create the slide service by calling slide.NewService
+	slideService := slide.NewService(slideAuthToken)
+
+	fmt.Println("Querying Slide API for devices...")
+
+	ctx := context.Background()
+	slideDevices := []slide.Device{}
+	if err := slideService.Devices().List(ctx, func(response slide.ListResponse[slide.Device]) error {
+		slideDevices = append(slideDevices, response.Data...)
+
+		return nil
+	}); err != nil {
+		fmt.Printf("Encountered error while querying devices from Slide API: %s\n", err.Error())
+
+		os.Exit(1)
+	}
+...
 ```
 
-### Examples
+### More Examples
 
 To see examples on how this library could be used to create a basic CLI tool, checkout the [examples](/examples/) directory. 
 
@@ -70,7 +89,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the GNUv3 License. See [LICENSE](/LICENSE) for more information.
+Distributed under the GPL-3.0 License. See [LICENSE](/LICENSE) for more information.
 
 <!-- CONTACT -->
 
