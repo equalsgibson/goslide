@@ -4,12 +4,12 @@
 <svg
    width="400"
    height="175"
-   viewBox="0 0 105.83333 46.302087"
+   viewBox="0 0 400 175"
    version="1.1"
    id="svg1"
    xml:space="preserve"
    sodipodi:docname="goslide-dark.svg"
-   inkscape:export-filename="goslide-light.png"
+   inkscape:export-filename="goslide-dark.svg"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
@@ -25,15 +25,15 @@
    inkscape:pageopacity="0"
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#505050"
-   inkscape:zoom="2.1413672"
-   inkscape:cx="114.87988"
-   inkscape:cy="101.10363"
+   inkscape:zoom="0.9983453"
+   inkscape:cx="46.577071"
+   inkscape:cy="163.77099"
    inkscape:window-width="2560"
    inkscape:window-height="1369"
-   inkscape:window-x="2552"
+   inkscape:window-x="-8"
    inkscape:window-y="-8"
    inkscape:window-maximized="1"
-   inkscape:current-layer="g2" />
+   inkscape:current-layer="svg1" />
    <defs
    id="defs1">
      <style
@@ -172,7 +172,7 @@
      style="display:inline;fill:none;stroke-width:0.370948"
      d="m 20.671606,-1.2417847 c -0.170721,0 -0.307991,0.077999 -0.307991,0.1746423 v 8.9600001 c 0,0.096643 0.13727,0.1743498 0.307991,0.1743498 h 10.903728 c 0.170722,0 0.307991,-0.077707 0.307991,-0.1743498 v -8.9600001 c 0,-0.096643 -0.137269,-0.1746423 -0.307991,-0.1746423 z m 4.609538,0.77404285 h 3.574458 c 0.13896,0 0.250632,0.0632164 0.250632,0.14187859 V 6.9672827 c 0,0.078662 -0.111672,0.1418781 -0.250632,0.1418781 h -3.574458 c -0.138958,0 -0.251147,-0.063216 -0.251147,-0.1418781 v -7.29314596 c 0,-0.0786622 0.112189,-0.14187859 0.251147,-0.14187859 z" /></clipPath></defs><g
    id="g2"
-   transform="matrix(2.5773197,0,0,2.5633322,0,-1.35643)"><g
+   transform="matrix(9.7410505,0,0,9.6881844,0,-5.1266643)"><g
      id="g25"
      transform="matrix(0.06658126,0,0,0.06658126,0.13455333,0.53145219)"
      style="fill:#ffffff;fill-opacity:1"><path
