@@ -1,3 +1,0 @@
-{"version": 2, "width": 415, "height": 30, "timestamp": 1746133647, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
-[1.195315, "o", "Querying Slide API for devices...\r\nEncountered error while querying devices from Slide API: Get \"https://api.slide.tech/v1/device\": response body file not found: ./mock_network_responses/device_list_page1_200.json\r\n"]
-[1.201288, "o", "exit status 1\r\n"]

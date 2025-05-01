@@ -43,7 +43,7 @@ For a full API reference, see the official [Slide API Documentation](https://doc
 ### Quickstart
 After following the above steps, you could create a simple `main.go` file and include the following to list all your current Slide Devices:
   
-![Quickstart Demo](/ops/assets/quickstart.gif)
+![Quickstart Demo](/ops/docs/assets/quickstart.gif)
 
 ```golang
 ...
@@ -98,7 +98,6 @@ Distributed under the GPL-3.0 License. See [LICENSE](/LICENSE) for more informat
 [Chris Gibson (@equalsgibson)](https://github.com/equalsgibson)
 
 Project Link: [https://github.com/equalsgibson/slide](https://github.com/equalsgibson/slide)
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
