@@ -1,0 +1,17 @@
+{
+    "data": [
+        {
+            "agent_id": "a_0123456789ab",
+            "backup_id": "b_0123456789cd",
+            "ended_at": "2024-08-23T01:40:08Z",
+            "error_code": 2,
+            "error_message": "string",
+            "snapshot_id": "s_0123456789cd",
+            "started_at": "2024-08-23T01:25:08Z",
+            "status": "succeeded"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}

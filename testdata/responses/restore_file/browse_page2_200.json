@@ -1,0 +1,21 @@
+{
+    "data": [
+        {
+            "download_uris": [
+                {
+                    "type": "local",
+                    "uri": "https://example.com"
+                }
+            ],
+            "modified_at": "2024-08-23T01:25:08Z",
+            "name": "desktop.ini",
+            "path": "C/Users/john/Desktop/desktop.ini",
+            "size": 1024,
+            "symlink_target_path": "C/Users/john/Desktop/desktop.ini",
+            "type": "file"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}

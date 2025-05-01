@@ -1,0 +1,27 @@
+{
+    "addresses": [
+        {
+            "ips": [
+                "192.168.1.104"
+            ],
+            "mac": "62:bb:d3:0d:db:7d"
+        }
+    ],
+    "booted_at": "2024-08-23T01:25:08Z",
+    "client_id": "…",
+    "device_id": "d_0123456789ab",
+    "display_name": "My Device",
+    "hardware_model_name": "Slide Z1, 1 TB",
+    "hostname": "my-device",
+    "image_version": "1.0.0",
+    "last_seen_at": "2024-08-23T01:25:08Z",
+    "nfr": false,
+    "package_version": "1.2.3",
+    "public_ip_address": "74.83.124.111",
+    "serial_number": "SN123456",
+    "service_model_name": "Slide Z1 Subscription, 1 TB, 1 Year Cloud Retention",
+    "service_model_name_short": "1 Year Cloud Retention",
+    "service_status": "active",
+    "storage_total_bytes": 1099511627776,
+    "storage_used_bytes": 274877906944
+}

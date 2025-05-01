@@ -1,0 +1,18 @@
+{
+    "account_id": "act_0123456789ab",
+    "account_name": "Slide Inc.",
+    "alert_emails": [
+        "john.doe@gmail.com"
+    ],
+    "billing_address": {
+        "City": "New York",
+        "Country": "US",
+        "Line1": "123 Main St",
+        "Line2": "Apt 4B",
+        "PostalCode": "10001",
+        "State": "NY"
+    },
+    "primary_contact": "John Smith",
+    "primary_email": "john.doe@gmail.com",
+    "primary_phone": "+1 555-555-5555"
+}

@@ -1,0 +1,24 @@
+{
+    "data": [
+        {
+            "display_name": "John Doe",
+            "email": "john.doe@gmail.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "role_id": "r_account_owner",
+            "user_id": "u_1111111111ab"
+        },
+        {
+            "display_name": "First_Order_Maestro123",
+            "email": "kren@deathstar.example",
+            "first_name": "Kylo",
+            "last_name": "Ren",
+            "role_id": "r_account_admin",
+            "user_id": "u_2222222222cd"
+        }
+    ],
+    "pagination": {
+        "next_offset": 2,
+        "total": 4
+    }
+}

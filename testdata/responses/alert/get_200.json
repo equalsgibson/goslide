@@ -1,0 +1,11 @@
+{
+    "agent_id": "a_0123456789ab",
+    "alert_fields": "string",
+    "alert_id": "al_0123456789ab",
+    "alert_type": "device_not_checking_in",
+    "created_at": "2024-08-23T01:25:08Z",
+    "device_id": "d_0123456789ab",
+    "resolved": false,
+    "resolved_at": "2024-08-23T01:25:08Z",
+    "resolved_by": "John Smith"
+}

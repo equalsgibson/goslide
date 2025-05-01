@@ -1,0 +1,13 @@
+{
+    "data": [
+        {
+            "client_id": "c_123456789abc",
+            "name": "My Client",
+            "comments": ""
+        }
+    ],
+    "pagination": {
+        "next_offset": 1,
+        "total": 2
+    }
+}

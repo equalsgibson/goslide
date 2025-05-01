@@ -1,0 +1,22 @@
+{
+    "data": [
+        {
+            "agent_id": "a_0123456789ab",
+            "backup_ended_at": "2024-08-23T01:40:08Z",
+            "backup_started_at": "2024-08-23T01:25:08Z",
+            "locations": [
+                {
+                    "device_id": "d_0123456789ab",
+                    "type": "local"
+                }
+            ],
+            "snapshot_id": "s_0123456789cd",
+            "verify_boot_screenshot_url": "https://example.com",
+            "verify_boot_status": "success",
+            "verify_fs_status": "success"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}
