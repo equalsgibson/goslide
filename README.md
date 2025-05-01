@@ -5,8 +5,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://equalsgibson.github.io/slide/assets/goslide.svg" style="filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(225deg) brightness(103%) contrast(101%);" type="image/svg+xml"  width="410" height="205" />
-    <source media="(prefers-color-scheme: light)" srcset="https://equalsgibson.github.io/slide/assets/goslide.svg" style="filter: invert(0%) sepia(100%) saturate(8%) hue-rotate(141deg) brightness(98%) contrast(103%);" type="image/svg+xml" width="410" height="205" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://equalsgibson.github.io/slide/assets/goslide-dark.svg" type="image/svg+xml"  width="410" height="205" />
+    <source media="(prefers-color-scheme: light)" srcset="https://equalsgibson.github.io/slide/assets/goslide-light.svg" type="image/svg+xml" width="410" height="205" />
     <img src="https://equalsgibson.github.io/slide/assets/goslide.svg" type="image/svg+xml" alt="Go Slide repository logo" />
   </picture>
   <br>
