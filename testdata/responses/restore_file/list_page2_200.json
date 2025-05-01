@@ -1,0 +1,15 @@
+{
+    "data": [
+        {
+            "agent_id": "a_0123456789ab",
+            "created_at": "2024-08-23T01:25:08Z",
+            "device_id": "d_0123456789ab",
+            "expires_at": "2024-08-23T01:25:08Z",
+            "file_restore_id": "fr_0123456789cd",
+            "snapshot_id": "s_0123456789cd"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}

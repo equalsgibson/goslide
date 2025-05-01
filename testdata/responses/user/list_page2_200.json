@@ -1,0 +1,23 @@
+{
+    "data": [
+        {
+            "display_name": "Just a Guy",
+            "email": "jguy@deathstar.example",
+            "first_name": "Justin",
+            "last_name": "Guy",
+            "role_id": "r_account_tech",
+            "user_id": "u_3333333333ab"
+        },
+        {
+            "display_name": "SeeThreePeOh",
+            "email": "c3po@deathstar.example",
+            "first_name": "C-",
+            "last_name": "3PO",
+            "role_id": "r_readonly",
+            "user_id": "u_4444444444cd"
+        }
+    ],
+    "pagination": {
+        "total": 4
+    }
+}

@@ -1,0 +1,27 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  fix:
+    desc: "Fix formatting to match fmt and run 'go mod tidy'"
+    cmds:
+    - go mod tidy
+    - gofmt -s -w .
+
+  test:
+    desc: "Run package tests and generate a coverage report"
+    cmds:
+    - go test -coverprofile=./ops/docs/coverage.out
+    - go tool cover -func=./ops/docs/coverage.out | awk '/^total/{print "{\"total\":\""$3"\"}"}' > ./ops/docs/coverage.json
+    - go tool cover -html ./ops/docs/coverage.out -o ./ops/docs/coverage.html
+
+  lint:
+    desc: "Lint the package to ensure compliance with golangci-lint"
+    cmds:
+    - golangci-lint run ./...
+
+  clean:
+    desc: "Remove temporary and generated files"
+    cmds:
+      - git clean -Xdff --exclude="!.env*local"

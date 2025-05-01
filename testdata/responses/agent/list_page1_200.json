@@ -1,0 +1,33 @@
+{
+    "data": [
+        {
+            "addresses": [
+                {
+                    "ips": [
+                        "192.168.1.104"
+                    ],
+                    "mac": "62:bb:d3:0d:db:7d"
+                }
+            ],
+            "agent_id": "a_0123456789ab",
+            "agent_version": "1.2.3",
+            "booted_at": "2024-08-23T01:25:08Z",
+            "client_id": "string",
+            "device_id": "d_0123456789ab",
+            "display_name": "My First Device",
+            "encryption_algorithm": "aes-256-gcm",
+            "firmware_type": "UEFI",
+            "hostname": "my-hostname-1",
+            "last_seen_at": "2024-08-23T01:25:08Z",
+            "manufacturer": "Microsoft Corporation",
+            "os": "windows",
+            "os_version": "10.0.19042",
+            "platform": "Microsoft Windows 10 Home",
+            "public_ip_address": "74.83.124.111"
+        }
+    ],
+    "pagination": {
+        "next_offset": 1,
+        "total": 2
+    }
+}

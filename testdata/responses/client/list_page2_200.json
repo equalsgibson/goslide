@@ -1,0 +1,12 @@
+{
+    "data": [
+        {
+            "client_id": "c_987654321cba",
+            "name": "My Other Client",
+            "comments": ""
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}
