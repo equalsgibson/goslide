@@ -1,0 +1,9 @@
+{
+    "codes": [
+        "err_unauthorized"
+    ],
+    "details": [
+        "Invalid API token provided or you do not have permission to access this resource."
+    ],
+    "message": "unauthorized"
+}

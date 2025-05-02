@@ -1,0 +1,9 @@
+{
+    "codes": [
+        "err_missing_authentication"
+    ],
+    "details": [
+        "You did not provide an API token. You need to provide your API token in the Authorization header, using Bearer auth (e.g. 'Authorization: Bearer YOUR_SECRET_TOKEN')."
+    ],
+    "message": "unauthorized"
+}

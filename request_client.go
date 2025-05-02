@@ -35,7 +35,11 @@ func (rc *requestClient) do(request *http.Request, target any) error {
 	defer response.Body.Close()
 
 	if response.StatusCode >= http.StatusBadRequest {
-		slideAPIError := &SlideError{}
+		slideAPIError := &SlideError{
+			HTTPStatusCode:    response.StatusCode,
+			HTTPRequestPath:   request.URL.Path,
+			HTTPRequestMethod: request.Method,
+		}
 		bodyBytes, err := io.ReadAll(response.Body)
 		if err != nil {
 			return err
