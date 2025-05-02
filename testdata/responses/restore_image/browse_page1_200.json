@@ -1,0 +1,19 @@
+{
+    "data": [
+        {
+            "disk_id": "disk_0123456789ab",
+            "download_uris": [
+                {
+                    "type": "local",
+                    "uri": "https://example.com"
+                }
+            ],
+            "name": "MyWindowsAgent (2024-08-05 20-44-25 EDT, C).vhdx",
+            "size": 1073741824
+        }
+    ],
+    "pagination": {
+        "next_offset": 1,
+        "total": 2
+    }
+}

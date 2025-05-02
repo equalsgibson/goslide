@@ -40,7 +40,7 @@ type Service struct {
 	clients                ClientService
 	devices                DeviceService
 	fileRestores           FileRestoreService
-	health                 *healthCheck
+	health                 HealthCheck
 	imageExportRestores    ImageExportRestoreService
 	networks               NetworkService
 	snapshots              SnapshotService
@@ -101,11 +101,15 @@ func NewService(
 			baseEndpoint:  "/v1/restore/file",
 			requestClient: requestClient,
 		},
-		health: &healthCheck{
+		health: HealthCheck{
 			requestClient: requestClient,
 		},
 		imageExportRestores: ImageExportRestoreService{
 			baseEndpoint:  "/v1/restore/image",
+			requestClient: requestClient,
+		},
+		networks: NetworkService{
+			baseEndpoint:  "/v1/network",
 			requestClient: requestClient,
 		},
 		snapshots: SnapshotService{

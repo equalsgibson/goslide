@@ -164,7 +164,6 @@ func TestAgent_Update(t *testing.T) {
 	if !bytes.Equal(expectedBytes, actualBytes) {
 		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
 	}
-
 }
 
 func TestAgent_Get(t *testing.T) {

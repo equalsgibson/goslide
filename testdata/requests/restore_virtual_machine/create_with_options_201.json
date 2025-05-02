@@ -1,0 +1,12 @@
+{
+    "device_id": "d_0123456789ab",
+    "snapshot_id": "s_0123456789ab",
+    "boot_mods": [
+        "passwordless_admin_user"
+    ],
+    "cpu_count": 2,
+    "disk_bus": "sata",
+    "memory_in_mb": 4096,
+    "network_model": "e1000",
+    "network_type": "bridge"
+}

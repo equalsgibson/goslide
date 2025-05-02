@@ -22,11 +22,12 @@ const (
 )
 
 type SlideError struct {
-	HTTPStatusCode  int
-	HTTPRequestPath string
-	Codes           []APIErrorCode `json:"codes"`
-	Details         []string       `json:"details"`
-	Message         string         `json:"message"`
+	HTTPStatusCode    int
+	HTTPRequestPath   string
+	HTTPRequestMethod string
+	Codes             []APIErrorCode `json:"codes"`
+	Details           []string       `json:"details"`
+	Message           string         `json:"message"`
 }
 
 func (e *SlideError) Error() string {

@@ -1,0 +1,5 @@
+{
+    "network_id": "net_012345",
+    "proto": "tcp",
+    "port": 25881
+}

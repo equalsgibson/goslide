@@ -1,0 +1,15 @@
+{
+    "data": [
+        {
+            "agent_id": "a_0123456789ab",
+            "created_at": "2024-08-23T01:26:08Z",
+            "device_id": "d_0123456789ab",
+            "image_export_id": "ie_0123456789cd",
+            "image_type": "vhdx",
+            "snapshot_id": "s_0123456789cd"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}

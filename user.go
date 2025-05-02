@@ -31,7 +31,7 @@ type UserService struct {
 	requestClient *requestClient
 }
 
-// https://docs.slide.tech/api/#tag/users
+// https://docs.slide.tech/api/#tag/users/GET/v1/user
 func (u UserService) List(
 	ctx context.Context,
 	pageHandler func(response ListResponse[User]) error,
@@ -39,7 +39,7 @@ func (u UserService) List(
 	return u.ListWithQueryParameters(ctx, pageHandler)
 }
 
-// https://docs.slide.tech/api/#tag/users
+// https://docs.slide.tech/api/#tag/users/GET/v1/user
 func (u UserService) ListWithQueryParameters(
 	ctx context.Context,
 	pageHandler func(response ListResponse[User]) error,

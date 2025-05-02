@@ -1,0 +1,9 @@
+{
+    "network_id": "net_012345",
+    "wg_address": "10.0.0.100",
+    "peer_name": "My Bridge to LAN Network",
+    "remote_networks": [
+        "10.80.0.0/24",
+        "10.80.1.0/24"
+    ]
+}

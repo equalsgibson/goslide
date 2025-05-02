@@ -53,8 +53,11 @@ const (
 )
 
 type ImageExportRestorePayload struct {
-	DeviceID   string `json:"device_id"`
-	SnapshotID string `json:"snapshot_id"`
+	DeviceID   string          `json:"device_id"`
+	SnapshotID string          `json:"snapshot_id"`
+	ImageType  ImageExportType `json:"image_type"`
+
+	BootMods []BootMod `json:"boot_mods,omitempty"`
 }
 
 // https://docs.slide.tech/api/#tag/restores-image/GET/v1/restore/image
@@ -193,7 +196,7 @@ func (i ImageExportRestoreService) BrowseWithQueryParameters(
 	for {
 		target := ListResponse[ImageExportRestoreData]{}
 
-		endpoint := i.baseEndpoint + "/" + imageExportRestoreID
+		endpoint := i.baseEndpoint + "/" + imageExportRestoreID + "/browse"
 		if len(queryParams) > 0 {
 			endpoint = endpoint + "?"
 		}

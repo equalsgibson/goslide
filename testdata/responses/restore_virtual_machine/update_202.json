@@ -1,0 +1,23 @@
+{
+    "agent_id": "a_0123456789ab",
+    "cpu_count": 2,
+    "created_at": "2024-08-23T01:25:08Z",
+    "device_id": "d_0123456789ab",
+    "disk_bus": "sata",
+    "expires_at": "2024-08-23T01:25:08Z",
+    "memory_in_mb": 4096,
+    "network_model": "e1000",
+    "network_type": "bridged",
+    "snapshot_id": "s_0123456789ab",
+    "state": "running",
+    "virt_id": "virt_0123456789ab",
+    "vnc": [
+        {
+            "host": "192.168.1.53",
+            "port": 12345,
+            "type": "local",
+            "websocket_uri": "wss://example.com"
+        }
+    ],
+    "vnc_password": "super-secret"
+}

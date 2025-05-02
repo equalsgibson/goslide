@@ -1,0 +1,24 @@
+{
+    "data": [
+        {
+            "bridge_device_id": "d_0123456789cd",
+            "client_id": "string",
+            "comments": "This is a test network",
+            "connected_virt_ids": [
+                "virt_0123456789cd"
+            ],
+            "dhcp": true,
+            "dhcp_range_end": "10.0.0.100",
+            "dhcp_range_start": "10.0.0.1",
+            "internet": true,
+            "name": "Bridge to LAN Network",
+            "nameservers": "1.1.1.1,1.0.0.1",
+            "network_id": "net_012555",
+            "router_prefix": "10.0.0.1/24",
+            "type": "bridge-lan"
+        }
+    ],
+    "pagination": {
+        "total": 2
+    }
+}

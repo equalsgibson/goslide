@@ -1,0 +1,10 @@
+{
+    "network_id": "net_012345",
+    "peer_name": "My PC",
+    "remote_networks": [
+        "10.80.0.0/24"
+    ],
+    "wg_address": "10.0.0.100",
+    "wg_private_key": "INRPOJHOzuMiRzim2tzzU2OU7Z3jNOIS4HRVA32NzUY",
+    "wg_public_key": "buRAPDIX5SMlPlzLsLO8WVaWe+1+FXf+TKk26e4Vkm8="
+}
