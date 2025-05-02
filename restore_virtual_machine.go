@@ -12,18 +12,18 @@ import (
 
 type VirtualMachineRestore struct {
 	AgentID      string                     `json:"agent_id"`
-	CPUCount     string                     `json:"cpu_count"`
+	CPUCount     uint                       `json:"cpu_count"`
 	CreatedAt    string                     `json:"created_at"`
 	DeviceID     string                     `json:"device_id"`
 	DiskBus      DiskBus                    `json:"disk_bus"`
 	ExpiresAt    string                     `json:"expires_at"`
-	MemoryInMB   string                     `json:"memory_in_mb"`
+	MemoryInMB   uint                       `json:"memory_in_mb"`
 	NetworkModel VirtualMachineNetworkModel `json:"network_model"`
 	NetworkType  VirtualMachineNetworkType  `json:"network_type"`
 	SnapshotID   string                     `json:"snapshot_id"`
 	State        VirtualMachineState        `json:"state"`
 	VirtID       string                     `json:"virt_id"`
-	VNC          string                     `json:"vnc"`
+	VNC          []VirtualMachineVNC        `json:"vnc"`
 	VNCPassword  string                     `json:"vnc_password"`
 }
 
@@ -33,10 +33,10 @@ type VirtualMachineRestoreService struct {
 }
 
 type VirtualMachineVNC struct {
-	Host         string `json:"host"`
-	Port         string `json:"port"`
-	Type         string `json:"type"`
-	WebsocketURI string `json:"websocket_uri"`
+	Host         string                `json:"host"`
+	Port         uint                  `json:"port"`
+	Type         VirtualMachineVNCType `json:"type"`
+	WebsocketURI string                `json:"websocket_uri"`
 }
 
 // https://docs.slide.tech/api/#tag/restores-virtual-machine/GET/v1/restore/virt
@@ -250,4 +250,11 @@ const (
 	VirtualMachineState_RUNNING VirtualMachineState = "running"
 	VirtualMachineState_STOPPED VirtualMachineState = "stopped"
 	VirtualMachineState_PAUSED  VirtualMachineState = "paused"
+)
+
+type VirtualMachineVNCType string
+
+const (
+	VirtualMachineVNCType_LOCAL VirtualMachineVNCType = "local"
+	VirtualMachineVNCType_CLOUD VirtualMachineVNCType = "cloud"
 )

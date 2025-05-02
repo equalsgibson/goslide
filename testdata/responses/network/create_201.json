@@ -13,5 +13,5 @@
     "nameservers": "1.1.1.1,1.0.0.1",
     "network_id": "net_012345",
     "router_prefix": "10.0.0.1/24",
-    "type": "standard"
+    "type": "bridge-lan"
 }

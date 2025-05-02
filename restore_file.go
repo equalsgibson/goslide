@@ -165,7 +165,7 @@ func (f FileRestoreService) BrowseWithQueryParameters(
 	for {
 		target := ListResponse[FileRestoreData]{}
 
-		endpoint := f.baseEndpoint + "/" + fileRestoreID
+		endpoint := f.baseEndpoint + "/" + fileRestoreID + "/browse"
 		if len(queryParams) > 0 {
 			endpoint = endpoint + "?"
 		}

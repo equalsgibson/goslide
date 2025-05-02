@@ -221,7 +221,7 @@ func (n NetworkService) Update(ctx context.Context, networkID string, payload Ne
 	return target, nil
 }
 
-type NetworkPortForwardCreatePayload struct {
+type NetworkPortForwardPayload struct {
 	Dest      string       `json:"dest"`
 	NetworkID string       `json:"network_id"`
 	Proto     NetworkProto `json:"proto"`
@@ -235,7 +235,7 @@ const (
 )
 
 // https://docs.slide.tech/api/#tag/networks/POST/v1/network/{network_id}/port-forwards
-func (n NetworkService) CreatePortForward(ctx context.Context, networkID string, payload NetworkPortForwardCreatePayload) (NetworkPortForward, error) {
+func (n NetworkService) CreatePortForward(ctx context.Context, networkID string, payload NetworkPortForwardPayload) (NetworkPortForward, error) {
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
 		return NetworkPortForward{}, err
@@ -262,9 +262,179 @@ func (n NetworkService) CreatePortForward(ctx context.Context, networkID string,
 	return target, nil
 }
 
+// https://docs.slide.tech/api/#tag/networks/DELETE/v1/network/{network_id}/port-forwards
+func (n NetworkService) DeletePortForward(ctx context.Context, networkID string, payload NetworkPortForwardPayload) error {
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		n.baseEndpoint+"/"+networkID+"/port-forwards",
+		requestBody,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if err := n.requestClient.SlideRequest(request, nil); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// https://docs.slide.tech/api/#tag/networks/PATCH/v1/network/{network_id}/port-forwards
+func (n NetworkService) UpdatePortForward(ctx context.Context, networkID string, payload NetworkPortForwardUpdatePayload) error {
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		n.baseEndpoint+"/"+networkID+"/port-forwards",
+		requestBody,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if err := n.requestClient.SlideRequest(request, nil); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type NetworkPortForwardUpdatePayload struct {
+	Dest      string       `json:"dest"`
+	NetworkID string       `json:"network_id"`
+	Port      uint         `json:"port"`
+	ProtoNew  NetworkProto `json:"proto_new"`
+	ProtoOld  NetworkProto `json:"proto_old"`
+}
+
 type NetworkPortForward struct {
 	Dest      string       `json:"dest"`
 	NetworkID string       `json:"network_id"`
 	Port      uint         `json:"port"`
 	Proto     NetworkProto `json:"proto"`
+}
+
+type NetworkWGPeer struct {
+	NetworkID      string   `json:"network_id"`
+	PeerName       string   `json:"peer_name"`
+	RemoteNetworks []string `json:"remote_networks"`
+	WGAddress      string   `json:"wg_address"`
+	WGPrivateKey   string   `json:"wg_private_key"`
+	WGPublicKey    string   `json:"wg_public_key"`
+}
+
+type NetworkWGPeerCreatePayload struct {
+	NetworkID      string   `json:"network_id"`
+	PeerName       string   `json:"peer_name"`
+	RemoteNetworks []string `json:"remote_networks"`
+}
+
+// https://docs.slide.tech/api/#tag/networks/POST/v1/network/{network_id}/wg-peers
+func (n NetworkService) CreateWGPeer(ctx context.Context, networkID string, payload NetworkWGPeerCreatePayload) (NetworkWGPeer, error) {
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		n.baseEndpoint+"/"+networkID+"/wg-peers",
+		requestBody,
+	)
+
+	if err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	target := NetworkWGPeer{}
+	if err := n.requestClient.SlideRequest(request, &target); err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	return target, nil
+}
+
+// https://docs.slide.tech/api/#tag/networks/DELETE/v1/network/{network_id}/wg-peers
+func (n NetworkService) DeleteWGPeer(ctx context.Context, networkID, wgAddress string) error {
+	type networkWGPeerDeletePayload struct {
+		NetworkID string `json:"network_id"`
+		WGAddress string `json:"wg_address"`
+	}
+
+	payload := networkWGPeerDeletePayload{
+		NetworkID: networkID,
+		WGAddress: wgAddress,
+	}
+
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		n.baseEndpoint+"/"+networkID+"/wg-peers",
+		requestBody,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if err := n.requestClient.SlideRequest(request, nil); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// https://docs.slide.tech/api/#tag/networks/PATCH/v1/network/{network_id}/wg-peers
+func (n NetworkService) UpdateWGPeer(ctx context.Context, networkID string, payload NetworkPortForwardUpdatePayload) (NetworkWGPeer, error) {
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		n.baseEndpoint+"/"+networkID+"/wg-peers",
+		requestBody,
+	)
+
+	if err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	target := NetworkWGPeer{}
+	if err := n.requestClient.SlideRequest(request, &target); err != nil {
+		return NetworkWGPeer{}, err
+	}
+
+	return target, nil
 }
