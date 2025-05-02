@@ -108,6 +108,10 @@ func NewService(
 			baseEndpoint:  "/v1/restore/image",
 			requestClient: requestClient,
 		},
+		networks: NetworkService{
+			baseEndpoint:  "/v1/network",
+			requestClient: requestClient,
+		},
 		snapshots: SnapshotService{
 			baseEndpoint:  "/v1/snapshot",
 			requestClient: requestClient,

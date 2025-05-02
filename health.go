@@ -7,6 +7,7 @@ import (
 )
 
 // healthCheck is the service that is used to report whether an API Token is valid.
+//
 // TODO: This can be deprecated if Slide implements an endpoint to validate tokens.
 type HealthCheck struct {
 	requestClient *requestClient

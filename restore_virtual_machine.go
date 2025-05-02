@@ -11,20 +11,20 @@ import (
 )
 
 type VirtualMachineRestore struct {
-	AgentID      string `json:"agent_id"`
-	CPUCount     string `json:"cpu_count"`
-	CreatedAt    string `json:"created_at"`
-	DeviceID     string `json:"device_id"`
-	DiskBus      string `json:"disk_bus"`
-	ExpiresAt    string `json:"expires_at"`
-	MemoryInMB   string `json:"memory_in_mb"`
-	NetworkModel string `json:"network_model"`
-	NetworkType  string `json:"network_type"`
-	SnapshotID   string `json:"snapshot_id"`
-	State        string `json:"state"`
-	VirtID       string `json:"virt_id"`
-	VNC          string `json:"vnc"`
-	VNCPassword  string `json:"vnc_password"`
+	AgentID      string                     `json:"agent_id"`
+	CPUCount     string                     `json:"cpu_count"`
+	CreatedAt    string                     `json:"created_at"`
+	DeviceID     string                     `json:"device_id"`
+	DiskBus      DiskBus                    `json:"disk_bus"`
+	ExpiresAt    string                     `json:"expires_at"`
+	MemoryInMB   string                     `json:"memory_in_mb"`
+	NetworkModel VirtualMachineNetworkModel `json:"network_model"`
+	NetworkType  VirtualMachineNetworkType  `json:"network_type"`
+	SnapshotID   string                     `json:"snapshot_id"`
+	State        VirtualMachineState        `json:"state"`
+	VirtID       string                     `json:"virt_id"`
+	VNC          string                     `json:"vnc"`
+	VNCPassword  string                     `json:"vnc_password"`
 }
 
 type VirtualMachineRestoreService struct {
@@ -101,7 +101,7 @@ func (v VirtualMachineRestoreService) ListWithQueryParameters(
 	return nil
 }
 
-// https://docs.slide.tech/api/#tag/restores-image/POST/v1/restore/image
+// https://docs.slide.tech/api/#tag/restores-virtual-machine/POST/v1/restore/virt
 func (v VirtualMachineRestoreService) Create(ctx context.Context, payload VirtualMachineRestoreCreatePayload) (VirtualMachineRestore, error) {
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
@@ -129,23 +129,75 @@ func (v VirtualMachineRestoreService) Create(ctx context.Context, payload Virtua
 	return target, nil
 }
 
-// https://docs.slide.tech/api/#tag/restores-image/GET/v1/restore/image/{image_export_id}
-func (v VirtualMachineRestoreService) Get(ctx context.Context, imageExportRestoreID string) (ImageExportRestore, error) {
-	target := ImageExportRestore{}
+// https://docs.slide.tech/api/#tag/restores-virtual-machine/GET/v1/restore/virt/{virt_id}
+func (v VirtualMachineRestoreService) Get(ctx context.Context, virtID string) (VirtualMachineRestore, error) {
+	target := VirtualMachineRestore{}
 
 	request, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodGet,
-		v.baseEndpoint+"/"+imageExportRestoreID,
+		v.baseEndpoint+"/"+virtID,
 		http.NoBody,
 	)
 
 	if err != nil {
-		return ImageExportRestore{}, err
+		return VirtualMachineRestore{}, err
 	}
 
 	if err := v.requestClient.SlideRequest(request, &target); err != nil {
-		return ImageExportRestore{}, err
+		return VirtualMachineRestore{}, err
+	}
+
+	return target, nil
+}
+
+// https://docs.slide.tech/api/#tag/restores-virtual-machine/DELETE/v1/restore/virt/{virt_id}
+func (v VirtualMachineRestoreService) Delete(ctx context.Context, virtID string) error {
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodDelete,
+		v.baseEndpoint+"/"+virtID,
+		http.NoBody,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return v.requestClient.SlideRequest(request, nil)
+}
+
+// https://docs.slide.tech/api/#tag/restores-virtual-machine/PATCH/v1/restore/virt/{virt_id}
+func (v VirtualMachineRestoreService) Update(ctx context.Context, virtID string, state VirtualMachineState) (VirtualMachineRestore, error) {
+	type virtualMachineRestoreUpdatePayload struct {
+		State VirtualMachineState `json:"state"`
+	}
+
+	payload := virtualMachineRestoreUpdatePayload{
+		State: state,
+	}
+
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		return VirtualMachineRestore{}, err
+	}
+
+	requestBody := bytes.NewReader(payloadBytes)
+
+	request, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPatch,
+		v.baseEndpoint+"/"+virtID,
+		requestBody,
+	)
+
+	if err != nil {
+		return VirtualMachineRestore{}, err
+	}
+
+	target := VirtualMachineRestore{}
+	if err := v.requestClient.SlideRequest(request, &target); err != nil {
+		return VirtualMachineRestore{}, err
 	}
 
 	return target, nil
@@ -155,12 +207,12 @@ type VirtualMachineRestoreCreatePayload struct {
 	DeviceID   string `json:"device_id"`
 	SnapshotID string `json:"snapshot_id"`
 
-	BootMods     []BootMod    `json:"boot_mods,omitempty"`
-	CPUCount     uint         `json:"cpu_count,omitempty"`
-	DiskBus      DiskBus      `json:"disk_bus,omitempty"`
-	MemoryInMB   uint         `json:"memory_in_mb,omitempty"`
-	NetworkModel NetworkModel `json:"network_model,omitempty"`
-	NetworkType  NetworkType  `json:"network_type,omitempty"`
+	BootMods     []BootMod                  `json:"boot_mods,omitempty"`
+	CPUCount     uint                       `json:"cpu_count,omitempty"`
+	DiskBus      DiskBus                    `json:"disk_bus,omitempty"`
+	MemoryInMB   uint                       `json:"memory_in_mb,omitempty"`
+	NetworkModel VirtualMachineNetworkModel `json:"network_model,omitempty"`
+	NetworkType  VirtualMachineNetworkType  `json:"network_type,omitempty"`
 }
 
 type BootMod string
@@ -176,18 +228,26 @@ const (
 	DiskBus_VIRTIO DiskBus = "virtio"
 )
 
-type NetworkModel string
+type VirtualMachineNetworkModel string
 
 const (
-	NetworkModel_HYPERVISOR_DEFAULT NetworkModel = "hypervisor_default"
-	NetworkModel_E1000              NetworkModel = "e1000"
-	NetworkModel_RTL8139            NetworkModel = "rtl8139"
+	VirtualMachineNetworkModel_HYPERVISOR_DEFAULT VirtualMachineNetworkModel = "hypervisor_default"
+	VirtualMachineNetworkModel_E1000              VirtualMachineNetworkModel = "e1000"
+	VirtualMachineNetworkModel_RTL8139            VirtualMachineNetworkModel = "rtl8139"
 )
 
-type NetworkType string
+type VirtualMachineNetworkType string
 
 const (
-	NetworkType_NETWORK          NetworkType = "network"
-	NetworkType_NETWORK_ISOLATED NetworkType = "network-isolated"
-	NetworkType_BRIDGE           NetworkType = "bridge"
+	VirtualMachineNetworkType_NETWORK          VirtualMachineNetworkType = "network"
+	VirtualMachineNetworkType_NETWORK_ISOLATED VirtualMachineNetworkType = "network-isolated"
+	VirtualMachineNetworkType_BRIDGE           VirtualMachineNetworkType = "bridge"
+)
+
+type VirtualMachineState string
+
+const (
+	VirtualMachineState_RUNNING VirtualMachineState = "running"
+	VirtualMachineState_STOPPED VirtualMachineState = "stopped"
+	VirtualMachineState_PAUSED  VirtualMachineState = "paused"
 )

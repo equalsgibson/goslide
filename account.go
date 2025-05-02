@@ -34,7 +34,7 @@ type AccountService struct {
 	requestClient *requestClient
 }
 
-// https://docs.slide.tech/api/#tag/accounts
+// https://docs.slide.tech/api/#tag/accounts/GET/v1/account
 func (a AccountService) List(
 	ctx context.Context,
 	pageHandler func(response ListResponse[Account]) error,
@@ -42,7 +42,7 @@ func (a AccountService) List(
 	return a.ListWithQueryParameters(ctx, pageHandler)
 }
 
-// https://docs.slide.tech/api/#tag/accounts
+// https://docs.slide.tech/api/#tag/accounts/GET/v1/account
 func (a AccountService) ListWithQueryParameters(
 	ctx context.Context,
 	pageHandler func(response ListResponse[Account]) error,
