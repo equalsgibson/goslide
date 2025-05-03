@@ -16,6 +16,7 @@
 <!-- markdownlint-enable MD033 -->
 
 <div align="right">
+
 [![Slide API Version][slideapiversion]][slideapiversion-url]
 [![Go][golang]][golang-url]
 [![Code Coverage][coverage]][coverage-url]
