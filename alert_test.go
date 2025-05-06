@@ -118,6 +118,8 @@ func TestAlert_Update(t *testing.T) {
 		),
 	)
 
+	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
+
 	expected := slide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
@@ -126,7 +128,7 @@ func TestAlert_Update(t *testing.T) {
 		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
 		Resolved:    true,
-		ResolvedAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		ResolvedAt:  &resolvedTime,
 		ResolvedBy:  "John Smith",
 	}
 
@@ -174,6 +176,8 @@ func TestAlert_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
+
 	expected := slide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
@@ -181,9 +185,65 @@ func TestAlert_Get(t *testing.T) {
 		AlertType:   "device_not_checking_in",
 		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
-		Resolved:    false,
-		ResolvedAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		Resolved:    true,
+		ResolvedAt:  &resolvedTime,
 		ResolvedBy:  "John Smith",
+	}
+
+	if actual.ResolvedAt == nil {
+
+		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	}
+
+	if *actual.ResolvedAt != *expected.ResolvedAt {
+		t.Fatalf("did not get expected timestamp - expected: %v, actual: %v", *actual.ResolvedAt, *expected.ResolvedAt)
+	}
+
+	actual.ResolvedAt = expected.ResolvedAt
+
+	if expected != actual {
+		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	}
+}
+
+func TestAlert_GetUnresolved(t *testing.T) {
+	alertID := "al_0123456789ab"
+
+	testService := slide.NewService("fakeToken",
+		slide.WithCustomRoundtripper(
+			roundtripper.NetworkQueue(
+				t,
+				[]roundtripper.TestRoundTripFunc{
+					roundtripper.ServeAndValidate(
+						t,
+						&roundtripper.TestResponseFile{
+							StatusCode: http.StatusOK,
+							FilePath:   "testdata/responses/alert/get_unresolved_200.json",
+						},
+						roundtripper.ExpectedTestRequest{
+							Method: http.MethodGet,
+							Path:   "/v1/alert/" + alertID,
+							Query:  url.Values{},
+						},
+					),
+				},
+			),
+		),
+	)
+
+	ctx := context.Background()
+	actual, err := testService.Alerts().Get(ctx, alertID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := slide.Alert{
+		AgentID:     "a_0123456789ab",
+		AlertFields: "string",
+		AlertID:     alertID,
+		AlertType:   "device_not_checking_in",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		DeviceID:    "d_0123456789ab",
 	}
 
 	if expected != actual {
