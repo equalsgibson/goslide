@@ -8,15 +8,16 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type FileRestore struct {
-	AgentID       string `json:"agent_id"`
-	CreatedAt     string `json:"created_at"`
-	DeviceID      string `json:"device_id"`
-	ExpiresAt     string `json:"expires_at"`
-	FileRestoreID string `json:"file_restore_id"`
-	SnapshotID    string `json:"snapshot_id"`
+	AgentID       string    `json:"agent_id"`
+	CreatedAt     time.Time `json:"created_at"`
+	DeviceID      string    `json:"device_id"`
+	ExpiresAt     time.Time `json:"expires_at"`
+	FileRestoreID string    `json:"file_restore_id"`
+	SnapshotID    string    `json:"snapshot_id"`
 }
 
 type FileRestoreService struct {

@@ -8,15 +8,16 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type VirtualMachineRestore struct {
 	AgentID      string                     `json:"agent_id"`
 	CPUCount     uint                       `json:"cpu_count"`
-	CreatedAt    string                     `json:"created_at"`
+	CreatedAt    time.Time                  `json:"created_at"`
 	DeviceID     string                     `json:"device_id"`
 	DiskBus      DiskBus                    `json:"disk_bus"`
-	ExpiresAt    string                     `json:"expires_at"`
+	ExpiresAt    time.Time                  `json:"expires_at"`
 	MemoryInMB   uint                       `json:"memory_in_mb"`
 	NetworkModel VirtualMachineNetworkModel `json:"network_model"`
 	NetworkType  VirtualMachineNetworkType  `json:"network_type"`

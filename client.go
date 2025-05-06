@@ -96,7 +96,6 @@ func (c ClientService) Create(ctx context.Context, payload ClientPayload) (Clien
 	}
 
 	requestBody := bytes.NewReader(payloadBytes)
-
 	request, err := http.NewRequestWithContext(
 		ctx,
 		http.MethodPost,

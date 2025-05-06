@@ -123,10 +123,10 @@ func TestAlert_Update(t *testing.T) {
 		AlertFields: "string",
 		AlertID:     alertID,
 		AlertType:   "device_not_checking_in",
-		CreatedAt:   "2024-08-23T01:25:08Z",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
 		Resolved:    true,
-		ResolvedAt:  "2024-08-23T01:25:08Z",
+		ResolvedAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		ResolvedBy:  "John Smith",
 	}
 
@@ -179,10 +179,10 @@ func TestAlert_Get(t *testing.T) {
 		AlertFields: "string",
 		AlertID:     alertID,
 		AlertType:   "device_not_checking_in",
-		CreatedAt:   "2024-08-23T01:25:08Z",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
 		Resolved:    false,
-		ResolvedAt:  "2024-08-23T01:25:08Z",
+		ResolvedAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		ResolvedBy:  "John Smith",
 	}
 

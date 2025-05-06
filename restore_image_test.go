@@ -103,7 +103,7 @@ func TestRestore_Image_Get(t *testing.T) {
 
 	expected := slide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: imageExportRestoreID,
 		ImageType:     slide.ImageExportType_VHDX,
@@ -203,7 +203,7 @@ func TestRestore_Image_Create(t *testing.T) {
 
 	expected := slide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: "ie_0123456789ab",
 		ImageType:     slide.ImageExportType_VHDX,

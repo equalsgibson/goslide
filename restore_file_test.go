@@ -103,9 +103,9 @@ func TestRestore_File_Get(t *testing.T) {
 
 	expected := slide.FileRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
-		ExpiresAt:     "2024-08-23T01:25:08Z",
+		ExpiresAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		FileRestoreID: fileRestoreID,
 		SnapshotID:    "s_0123456789ab",
 	}
@@ -202,9 +202,9 @@ func TestRestore_File_Create(t *testing.T) {
 
 	expected := slide.FileRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
-		ExpiresAt:     "2024-08-23T01:25:08Z",
+		ExpiresAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		FileRestoreID: "fr_0123456789ab",
 		SnapshotID:    "s_0123456789ab",
 	}

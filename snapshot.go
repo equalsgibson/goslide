@@ -6,12 +6,13 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type Snapshot struct {
 	AgentID                 string             `json:"agent_id"`
-	BackupEndedAt           string             `json:"backup_ended_at"`
-	BackupStartedAt         string             `json:"backup_started_at"`
+	BackupEndedAt           time.Time          `json:"backup_ended_at"`
+	BackupStartedAt         time.Time          `json:"backup_started_at"`
 	Locations               []SnapshotLocation `json:"locations"`
 	SnapshotID              string             `json:"snapshot_id"`
 	VerifyBootScreenshotURL string             `json:"verify_boot_screenshot_url"`

@@ -8,11 +8,12 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type Device struct {
 	Addresses             []Address `json:"addresses"`
-	BootedAt              string    `json:"booted_at"`
+	BootedAt              time.Time `json:"booted_at"`
 	ClientID              string    `json:"client_id"`
 	DeviceID              string    `json:"device_id"`
 	DisplayName           string    `json:"display_name"`
@@ -20,7 +21,7 @@ type Device struct {
 	Hostname              string    `json:"hostname"`
 	ImageVersion          string    `json:"image_version"`
 	PublicIPAddress       string    `json:"public_ip_address"`
-	LastSeenAt            string    `json:"last_seen_at"`
+	LastSeenAt            time.Time `json:"last_seen_at"`
 	NFR                   bool      `json:"nfr"`
 	PackageVersion        string    `json:"package_version"`
 	SerialNumber          string    `json:"serial_number"`

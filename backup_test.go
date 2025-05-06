@@ -155,11 +155,11 @@ func TestBackup_Get(t *testing.T) {
 	expected := slide.Backup{
 		AgentID:      "a_0123456789ab",
 		BackupID:     "b_0123456789ab",
-		EndedAt:      "2024-08-23T01:40:08Z",
+		EndedAt:      generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
 		ErrorCode:    1,
 		ErrorMessage: "string",
 		SnapshotID:   "s_0123456789ab",
-		StartedAt:    "2024-08-23T01:25:08Z",
+		StartedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		Status:       slide.BackupStatus_SUCCEEDED,
 	}
 

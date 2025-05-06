@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type BackupStatus string
@@ -33,11 +34,11 @@ const (
 type Backup struct {
 	AgentID      string       `json:"agent_id"`
 	BackupID     string       `json:"backup_id"`
-	EndedAt      string       `json:"ended_at"`
+	EndedAt      time.Time    `json:"ended_at"`
 	ErrorCode    uint         `json:"error_code"`
 	ErrorMessage string       `json:"error_message"`
 	SnapshotID   string       `json:"snapshot_id"`
-	StartedAt    string       `json:"started_at"`
+	StartedAt    time.Time    `json:"started_at"`
 	Status       BackupStatus `json:"status"`
 }
 

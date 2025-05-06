@@ -100,8 +100,8 @@ func TestSnapshot_Get(t *testing.T) {
 
 	expected := slide.Snapshot{
 		AgentID:         "a_0123456789ab",
-		BackupEndedAt:   "2024-08-23T01:40:08Z",
-		BackupStartedAt: "2024-08-23T01:25:08Z",
+		BackupEndedAt:   generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
+		BackupStartedAt: generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		SnapshotID:      "s_0123456789ab",
 		Locations: []slide.SnapshotLocation{
 			{

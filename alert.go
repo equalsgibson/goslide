@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type Alert struct {
@@ -15,10 +16,10 @@ type Alert struct {
 	AlertFields string    `json:"alert_fields"`
 	AlertID     string    `json:"alert_id"`
 	AlertType   AlertType `json:"alert_type"`
-	CreatedAt   string    `json:"created_at"`
+	CreatedAt   time.Time `json:"created_at"`
 	DeviceID    string    `json:"device_id"`
 	Resolved    bool      `json:"resolved"`
-	ResolvedAt  string    `json:"resolved_at"`
+	ResolvedAt  time.Time `json:"resolved_at"`
 	ResolvedBy  string    `json:"resolved_by"`
 }
 
