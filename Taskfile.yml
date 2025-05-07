@@ -16,8 +16,19 @@ tasks:
     - go tool cover -func=./ops/docs/coverage.out | awk '/^total/{print "{\"total\":\""$3"\"}"}' > ./ops/docs/coverage.json
     - go tool cover -html ./ops/docs/coverage.out -o ./ops/docs/coverage.html
 
+  vulncheck:
+    desc: "Run the govulncheck tool to identify potential vulnerabilities in the current go version"
+    precondition: 
+      sh: command -v govulncheck
+      msg: "'govulncheck' is not installed. Please install this by running 'go install golang.org/x/vuln/cmd/govulncheck@latest'"
+    cmds:
+    - govulncheck ./...
+
   lint:
     desc: "Lint the package to ensure compliance with golangci-lint"
+    precondition: 
+      sh: command -v golangci-lint
+      msg: "'golangci-lint' is not installed. Please install this and re-run the task"
     cmds:
     - golangci-lint run ./...
 
