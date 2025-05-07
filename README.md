@@ -5,9 +5,9 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://equalsgibson.github.io/slide/assets/goslide-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="https://equalsgibson.github.io/slide/assets/goslide-light.png">
-    <img src="https://equalsgibson.github.io/slide/assets/goslide-light.png" width="400" height="175" alt="Go Slide repository logo">
+    <source media="(prefers-color-scheme: dark)" srcset="https://equalsgibson.github.io/goslide/assets/goslide-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="https://equalsgibson.github.io/goslide/assets/goslide-light.png">
+    <img src="https://equalsgibson.github.io/goslide/assets/goslide-light.png" width="400" height="175" alt="Go Slide repository logo">
   </picture>
   <br>
   <strong>Interact with your Slide devices, agents and restores!</strong>
@@ -109,11 +109,11 @@ Project Link: [https://github.com/equalsgibson/slide](https://github.com/equalsg
 [slideapiversion-url]: https://docs.slide.tech/releases/#api-v1102
 [golang]: https://img.shields.io/badge/v1.23-000?logo=go&logoColor=fff&labelColor=444&color=%2300ADD8
 [golang-url]: https://go.dev/
-[coverage]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fequalsgibson.github.io%2Fslide%2Fcoverage.json&query=%24.total&label=Coverage
-[coverage-url]: https://equalsgibson.github.io/slide/coverage.html
-[goaction]: https://github.com/equalsgibson/slide/actions/workflows/go.yml/badge.svg?branch=main
-[goaction-url]: https://github.com/equalsgibson/slide/actions/workflows/go.yml
-[goref]: https://pkg.go.dev/badge/github.com/equalsgibson/slide.svg
-[goref-url]: https://pkg.go.dev/github.com/equalsgibson/slide
-[goreport]: https://goreportcard.com/badge/github.com/equalsgibson/slide
-[goreport-url]: https://goreportcard.com/report/github.com/equalsgibson/slide
+[coverage]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fequalsgibson.github.io%2Fgoslide%2Fcoverage.json&query=%24.total&label=Coverage
+[coverage-url]: https://equalsgibson.github.io/goslide/coverage.html
+[goaction]: https://github.com/equalsgibson/goslide/actions/workflows/go.yml/badge.svg?branch=main
+[goaction-url]: https://github.com/equalsgibson/goslide/actions/workflows/go.yml
+[goref]: https://pkg.go.dev/badge/github.com/equalsgibson/goslide.svg
+[goref-url]: https://pkg.go.dev/github.com/equalsgibson/goslide
+[goreport]: https://goreportcard.com/badge/github.com/equalsgibson/goslide
+[goreport-url]: https://goreportcard.com/report/github.com/equalsgibson/goslide
