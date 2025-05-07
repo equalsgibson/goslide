@@ -39,7 +39,7 @@ For a full API reference, see the official [Slide API Documentation](https://doc
   - Download and install Go, version 1.23+, from the [official Go website](https://go.dev/doc/install).
   - Obtain your Slide API Token and review the **[Authentication](https://docs.slide.tech/api/#description/authentication)** section.
   - Open your editor of choice, create a new directory and initialize your Go project.
-  - Open a terminal and navigate to the directory of your project, then run: `go get github.com/equalsgibson/slide@latest`
+  - Open a terminal and navigate to the directory of your project, then run: `go get github.com/equalsgibson/goslide@latest`
 
 ### Quickstart
 After following the above steps, you could create a simple `main.go` file and include the following to list all your current Slide Devices:
@@ -48,14 +48,14 @@ After following the above steps, you could create a simple `main.go` file and in
 
 ```golang
 ...
-	// Create the slide service by calling slide.NewService
-	slideService := slide.NewService(slideAuthToken)
+	// Create the slide service by calling goslide.NewService
+	slide := goslide.NewService(slideAuthToken)
 
 	fmt.Println("Querying Slide API for devices...")
 
 	ctx := context.Background()
-	slideDevices := []slide.Device{}
-	if err := slideService.Devices().List(ctx, func(response slide.ListResponse[slide.Device]) error {
+	slideDevices := []goslide.Device{}
+	if err := slide.Devices().List(ctx, func(response goslide.ListResponse[goslide.Device]) error {
 		slideDevices = append(slideDevices, response.Data...)
 
 		return nil

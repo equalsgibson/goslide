@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestBackup_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestBackup_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Backup{}
+	actual := []goslide.Backup{}
 
 	ctx := context.Background()
 	if err := testService.Backups().List(ctx,
-		func(response slide.ListResponse[slide.Backup]) error {
+		func(response goslide.ListResponse[goslide.Backup]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -72,8 +72,8 @@ func TestBackup_List(t *testing.T) {
 }
 
 func TestBackup_StartBackup(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -125,8 +125,8 @@ func TestBackup_StartBackup(t *testing.T) {
 
 func TestBackup_Get(t *testing.T) {
 	agentID := "al_0123456789ab"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -153,7 +153,7 @@ func TestBackup_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Backup{
+	expected := goslide.Backup{
 		AgentID:      "a_0123456789ab",
 		BackupID:     "b_0123456789ab",
 		EndedAt:      generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
@@ -161,7 +161,7 @@ func TestBackup_Get(t *testing.T) {
 		ErrorMessage: "string",
 		SnapshotID:   "s_0123456789ab",
 		StartedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
-		Status:       slide.BackupStatus_SUCCEEDED,
+		Status:       goslide.BackupStatus_SUCCEEDED,
 	}
 
 	if diff := cmp.Diff(expected, actual); diff != "" {

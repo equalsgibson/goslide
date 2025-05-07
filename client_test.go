@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestClient_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestClient_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Client{}
+	actual := []goslide.Client{}
 
 	ctx := context.Background()
 	if err := testService.Clients().List(ctx,
-		func(response slide.ListResponse[slide.Client]) error {
+		func(response goslide.ListResponse[goslide.Client]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -72,8 +72,8 @@ func TestClient_List(t *testing.T) {
 }
 
 func TestClient_Create(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -117,13 +117,13 @@ func TestClient_Create(t *testing.T) {
 		),
 	)
 
-	expected := slide.Client{
+	expected := goslide.Client{
 		Name:     "My Client",
 		Comments: "",
 		ClientID: "c_123456789abc",
 	}
 
-	payload := slide.ClientPayload{
+	payload := goslide.ClientPayload{
 		Name: "My Client",
 	}
 
@@ -143,8 +143,8 @@ func TestClient_Create(t *testing.T) {
 func TestClient_Get(t *testing.T) {
 	clientID := "c_123456789abc"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -171,7 +171,7 @@ func TestClient_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Client{
+	expected := goslide.Client{
 		ClientID: clientID,
 		Comments: "This is a test client",
 		Name:     "Slide Office",
@@ -185,8 +185,8 @@ func TestClient_Get(t *testing.T) {
 func TestClient_Delete(t *testing.T) {
 	clientID := "c_123456789abc"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -214,8 +214,8 @@ func TestClient_Delete(t *testing.T) {
 
 func TestClient_Update(t *testing.T) {
 	clientID := "c_123456789abc"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -259,13 +259,13 @@ func TestClient_Update(t *testing.T) {
 		),
 	)
 
-	expected := slide.Client{
+	expected := goslide.Client{
 		Name:     "My Client",
 		Comments: "",
 		ClientID: clientID,
 	}
 
-	payload := slide.ClientPayload{
+	payload := goslide.ClientPayload{
 		Name: "My Client",
 	}
 

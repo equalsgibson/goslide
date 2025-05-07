@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestAgent_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestAgent_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Agent{}
+	actual := []goslide.Agent{}
 
 	ctx := context.Background()
 	if err := testService.Agents().List(ctx,
-		func(response slide.ListResponse[slide.Agent]) error {
+		func(response goslide.ListResponse[goslide.Agent]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestAgent_List(t *testing.T) {
 func TestAgent_Update(t *testing.T) {
 	agentID := "a_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -119,7 +119,7 @@ func TestAgent_Update(t *testing.T) {
 		),
 	)
 
-	expected := slide.Agent{
+	expected := goslide.Agent{
 		AgentID:             agentID,
 		AgentVersion:        "1.2.3",
 		BootedAt:            generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -135,7 +135,7 @@ func TestAgent_Update(t *testing.T) {
 		OSVersion:           "10.0.19042",
 		Platform:            "Microsoft Windows 10 Home",
 		PublicIPAddress:     "74.83.124.111",
-		Addresses: []slide.Address{
+		Addresses: []goslide.Address{
 			{
 				IPs: []string{
 					"192.168.1.104",
@@ -160,8 +160,8 @@ func TestAgent_Update(t *testing.T) {
 func TestAgent_Get(t *testing.T) {
 	agentID := "a_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -182,7 +182,7 @@ func TestAgent_Get(t *testing.T) {
 		),
 	)
 
-	expected := slide.Agent{
+	expected := goslide.Agent{
 		AgentID:             agentID,
 		AgentVersion:        "1.2.3",
 		BootedAt:            generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -198,7 +198,7 @@ func TestAgent_Get(t *testing.T) {
 		OSVersion:           "10.0.19042",
 		Platform:            "Microsoft Windows 10 Home",
 		PublicIPAddress:     "74.83.124.111",
-		Addresses: []slide.Address{
+		Addresses: []goslide.Address{
 			{
 				IPs: []string{
 					"192.168.1.104",
@@ -221,8 +221,8 @@ func TestAgent_Get(t *testing.T) {
 }
 
 func TestAgent_AutoPair(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -266,14 +266,14 @@ func TestAgent_AutoPair(t *testing.T) {
 		),
 	)
 
-	expected := slide.AgentAutoPairResponse{
+	expected := goslide.AgentAutoPairResponse{
 		AgentID:     "a_0123456789ab",
 		DisplayName: "My Agent",
 		PairCode:    "ABC123",
 	}
 
 	ctx := context.Background()
-	actual, err := testService.Agents().AutoPair(ctx, slide.AgentAutoPairPayload{
+	actual, err := testService.Agents().AutoPair(ctx, goslide.AgentAutoPairPayload{
 		DeviceID:    "d_0123456789ab",
 		DisplayName: "My Agent",
 	})
@@ -288,8 +288,8 @@ func TestAgent_AutoPair(t *testing.T) {
 }
 
 func TestAgent_Pair(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -333,7 +333,7 @@ func TestAgent_Pair(t *testing.T) {
 		),
 	)
 
-	expected := slide.Agent{
+	expected := goslide.Agent{
 		AgentID:             "a_0123456789ab",
 		AgentVersion:        "1.2.3",
 		BootedAt:            generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -349,7 +349,7 @@ func TestAgent_Pair(t *testing.T) {
 		OSVersion:           "10.0.19042",
 		Platform:            "Microsoft Windows 10 Home",
 		PublicIPAddress:     "74.83.124.111",
-		Addresses: []slide.Address{
+		Addresses: []goslide.Address{
 			{
 				IPs: []string{
 					"192.168.1.104",
@@ -361,7 +361,7 @@ func TestAgent_Pair(t *testing.T) {
 
 	ctx := context.Background()
 
-	actual, err := testService.Agents().Pair(ctx, slide.AgentPairPayload{
+	actual, err := testService.Agents().Pair(ctx, goslide.AgentPairPayload{
 		DeviceID: "d_0123456789ab",
 		PairCode: "ABC123",
 	})

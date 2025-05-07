@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"testing"

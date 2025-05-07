@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"context"
@@ -6,14 +6,14 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestSnapshot_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -48,11 +48,11 @@ func TestSnapshot_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Snapshot{}
+	actual := []goslide.Snapshot{}
 
 	ctx := context.Background()
 	if err := testService.Snapshots().List(ctx,
-		func(response slide.ListResponse[slide.Snapshot]) error {
+		func(response goslide.ListResponse[goslide.Snapshot]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -69,8 +69,8 @@ func TestSnapshot_List(t *testing.T) {
 func TestSnapshot_Get(t *testing.T) {
 	snapshotID := "s_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -97,20 +97,20 @@ func TestSnapshot_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Snapshot{
+	expected := goslide.Snapshot{
 		AgentID:         "a_0123456789ab",
 		BackupEndedAt:   generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
 		BackupStartedAt: generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		SnapshotID:      "s_0123456789ab",
-		Locations: []slide.SnapshotLocation{
+		Locations: []goslide.SnapshotLocation{
 			{
 				DeviceID: "d_0123456789ab",
-				Type:     slide.SnapshotLocationType_LOCAL,
+				Type:     goslide.SnapshotLocationType_LOCAL,
 			},
 		},
 		VerifyBootScreenshotURL: "https://example.com",
-		VerifyBootStatus:        slide.SnapshotBootStatus_SUCCESS,
-		VerifyFSStatus:          slide.SnapshotFSStatus_SUCCESS,
+		VerifyBootStatus:        goslide.SnapshotBootStatus_SUCCESS,
+		VerifyFSStatus:          goslide.SnapshotFSStatus_SUCCESS,
 	}
 
 	if diff := cmp.Diff(expected, actual); diff != "" {
@@ -121,8 +121,8 @@ func TestSnapshot_Get(t *testing.T) {
 func TestSnapshot_Get_Deleted(t *testing.T) {
 	snapshotID := "s_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -151,29 +151,29 @@ func TestSnapshot_Get_Deleted(t *testing.T) {
 
 	deletedAt := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
 
-	expected := slide.Snapshot{
+	expected := goslide.Snapshot{
 		AgentID:         "a_0123456789ab",
 		BackupEndedAt:   generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
 		BackupStartedAt: generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		SnapshotID:      "s_0123456789ab",
 		Deleted:         &deletedAt,
-		Deletions: []slide.SnapshotDeletion{
+		Deletions: []goslide.SnapshotDeletion{
 			{
 				Deleted:          deletedAt,
 				DeletedBy:        "John Smith",
 				FirstAndLastName: "John Smith",
-				Type:             slide.SnapshotLocationType_LOCAL,
+				Type:             goslide.SnapshotLocationType_LOCAL,
 			},
 		},
-		Locations: []slide.SnapshotLocation{
+		Locations: []goslide.SnapshotLocation{
 			{
 				DeviceID: "d_0123456789ab",
-				Type:     slide.SnapshotLocationType_LOCAL,
+				Type:     goslide.SnapshotLocationType_LOCAL,
 			},
 		},
 		VerifyBootScreenshotURL: "https://example.com",
-		VerifyBootStatus:        slide.SnapshotBootStatus_SUCCESS,
-		VerifyFSStatus:          slide.SnapshotFSStatus_SUCCESS,
+		VerifyBootStatus:        goslide.SnapshotBootStatus_SUCCESS,
+		VerifyFSStatus:          goslide.SnapshotFSStatus_SUCCESS,
 	}
 
 	if diff := cmp.Diff(expected, actual); diff != "" {

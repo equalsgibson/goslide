@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestAccount_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestAccount_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Account{}
+	actual := []goslide.Account{}
 
 	ctx := context.Background()
 	if err := testService.Accounts().List(ctx,
-		func(response slide.ListResponse[slide.Account]) error {
+		func(response goslide.ListResponse[goslide.Account]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestAccount_List(t *testing.T) {
 func TestAccount_Update(t *testing.T) {
 	accountID := "act_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -119,13 +119,13 @@ func TestAccount_Update(t *testing.T) {
 		),
 	)
 
-	expected := slide.Account{
+	expected := goslide.Account{
 		AccountID:   "act_0123456789ab",
 		AccountName: "Slide Inc.",
 		AlertEmails: []string{
 			"john.doe@gmail.com",
 		},
-		BillingAddress: slide.BillingAddress{
+		BillingAddress: goslide.BillingAddress{
 			City:       "New York",
 			Country:    "US",
 			Line1:      "123 Main St",
@@ -153,8 +153,8 @@ func TestAccount_Update(t *testing.T) {
 func TestAccount_Get(t *testing.T) {
 	accountID := "act_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -181,7 +181,7 @@ func TestAccount_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Account{
+	expected := goslide.Account{
 		AccountID:   "act_0123456789ab",
 		AccountName: "Slide Inc.",
 		AlertEmails: []string{
@@ -189,7 +189,7 @@ func TestAccount_Get(t *testing.T) {
 			"jane.smith@example.com",
 			"user123@domain.net",
 		},
-		BillingAddress: slide.BillingAddress{
+		BillingAddress: goslide.BillingAddress{
 			City:       "New York",
 			Country:    "US",
 			Line1:      "123 Main St",

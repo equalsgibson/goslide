@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"context"
@@ -8,13 +8,13 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 )
 
 func TestHealth_IsAuthenticated_InvalidToken(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -41,7 +41,7 @@ func TestHealth_IsAuthenticated_InvalidToken(t *testing.T) {
 	authenticated, err := testService.CheckAuthenticationToken(ctx)
 
 	// Confirm that the error is a slide pkg error and not a net/http or other error
-	var slideError *slide.SlideError
+	var slideError *goslide.SlideError
 	if errors.As(err, &slideError) {
 		// Validate the StatusCode is being set on the error correctly.
 		if slideError.HTTPStatusCode != http.StatusUnauthorized {
@@ -49,8 +49,8 @@ func TestHealth_IsAuthenticated_InvalidToken(t *testing.T) {
 		}
 
 		// Validate the error code enum for unauthorized is in the slice of returned error codes.
-		if !slices.Contains(slideError.Codes, slide.APIErrorCode_ERR_UNAUTHORIZED) {
-			t.Fatalf("the Slide API Error did not contain the correct error code - expecting %s, actual codes: %+v", slide.APIErrorCode_ERR_UNAUTHORIZED, slideError.Codes)
+		if !slices.Contains(slideError.Codes, goslide.APIErrorCode_ERR_UNAUTHORIZED) {
+			t.Fatalf("the Slide API Error did not contain the correct error code - expecting %s, actual codes: %+v", goslide.APIErrorCode_ERR_UNAUTHORIZED, slideError.Codes)
 		}
 	} else {
 		t.Fatal("expected to receive a Slide API error")
@@ -63,8 +63,8 @@ func TestHealth_IsAuthenticated_InvalidToken(t *testing.T) {
 }
 
 func TestHealth_IsAuthenticated_MissingToken(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -91,7 +91,7 @@ func TestHealth_IsAuthenticated_MissingToken(t *testing.T) {
 	authenticated, err := testService.CheckAuthenticationToken(ctx)
 
 	// Confirm that the error is a slide pkg error and not a net/http or other error
-	var slideError *slide.SlideError
+	var slideError *goslide.SlideError
 	if errors.As(err, &slideError) {
 		// Validate the StatusCode is being set on the error correctly.
 		if slideError.HTTPStatusCode != http.StatusUnauthorized {
@@ -99,8 +99,8 @@ func TestHealth_IsAuthenticated_MissingToken(t *testing.T) {
 		}
 
 		// Validate the error code enum for missing auth token is in the slice of returned error codes.
-		if !slices.Contains(slideError.Codes, slide.APIErrorCode_ERR_MISSING_AUTHENTICATION) {
-			t.Fatalf("the Slide API Error did not contain the correct error code - expecting %s, actual codes: %+v", slide.APIErrorCode_ERR_MISSING_AUTHENTICATION, slideError.Codes)
+		if !slices.Contains(slideError.Codes, goslide.APIErrorCode_ERR_MISSING_AUTHENTICATION) {
+			t.Fatalf("the Slide API Error did not contain the correct error code - expecting %s, actual codes: %+v", goslide.APIErrorCode_ERR_MISSING_AUTHENTICATION, slideError.Codes)
 		}
 	} else {
 		t.Fatal("expected to receive a Slide API error")
@@ -113,8 +113,8 @@ func TestHealth_IsAuthenticated_MissingToken(t *testing.T) {
 }
 
 func TestHealth_IsAuthenticated_OK(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{

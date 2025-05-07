@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"context"
@@ -6,14 +6,14 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestUser_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -48,11 +48,11 @@ func TestUser_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.User{}
+	actual := []goslide.User{}
 
 	ctx := context.Background()
 	if err := testService.Users().List(ctx,
-		func(response slide.ListResponse[slide.User]) error {
+		func(response goslide.ListResponse[goslide.User]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -69,8 +69,8 @@ func TestUser_List(t *testing.T) {
 func TestUser_Get(t *testing.T) {
 	userID := "u_1111111111ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -97,12 +97,12 @@ func TestUser_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.User{
+	expected := goslide.User{
 		DisplayName: "John Doe",
 		Email:       "john.doe@gmail.com",
 		FirstName:   "John",
 		LastName:    "Doe",
-		RoleID:      slide.UserRole_AccountOwner,
+		RoleID:      goslide.UserRole_AccountOwner,
 		UserID:      userID,
 	}
 
