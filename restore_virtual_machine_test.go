@@ -335,3 +335,90 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
+
+func TestRestore_Virtual_Machine_Update(t *testing.T) {
+	virtID := "virt_0123456789ab"
+	testService := slide.NewService("fakeToken",
+		slide.WithCustomRoundtripper(
+			roundtripper.NetworkQueue(
+				t,
+				[]roundtripper.TestRoundTripFunc{
+					roundtripper.ServeAndValidate(
+						t,
+						&roundtripper.TestResponseFile{
+							StatusCode: http.StatusCreated,
+							FilePath:   "testdata/responses/restore_virtual_machine/update_202.json",
+						},
+						roundtripper.ExpectedTestRequest{
+							Method: http.MethodPatch,
+							Path:   "/v1/restore/virt/" + virtID,
+							Query:  url.Values{},
+							Validator: func(r *http.Request) error {
+								expectedBody, err := os.ReadFile("testdata/requests/restore_virtual_machine/update_202.json")
+								if err != nil {
+									return fmt.Errorf("error during test setup - could not read file: %w", err)
+								}
+
+								actualBody, err := io.ReadAll(r.Body)
+								if err != nil {
+									return fmt.Errorf("error during test setup - could not read request body: %w", err)
+								}
+								r.Body = io.NopCloser(bytes.NewBuffer(actualBody))
+
+								var actualBodyFormatted bytes.Buffer
+								if err := json.Indent(&actualBodyFormatted, actualBody, "", "    "); err != nil {
+									return fmt.Errorf("error during test setup - could not format request body: %w", err)
+								}
+
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
+								}
+
+								return nil
+							},
+						},
+					),
+				},
+			),
+		),
+	)
+
+	ctx := context.Background()
+	actual, err := testService.VirtualMachineRestores().Update(ctx, virtID, slide.VirtualMachineRestoreUpdatePayload{
+		State:      slide.VirtualMachineState_RUNNING,
+		CPUCount:   2,
+		MemoryInMB: 4096,
+		ExpiresAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := slide.VirtualMachineRestore{
+		AgentID:      "a_0123456789ab",
+		CPUCount:     2,
+		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		DeviceID:     "d_0123456789ab",
+		DiskBus:      "sata",
+		ExpiresAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		MemoryInMB:   4096,
+		NetworkModel: "e1000",
+		NetworkType:  "bridged",
+		SnapshotID:   "s_0123456789ab",
+		State:        "running",
+		VirtID:       "virt_0123456789ab",
+		VNC: []slide.VirtualMachineVNC{
+			{
+				Host:         "192.168.1.53",
+				Port:         12345,
+				Type:         slide.VirtualMachineVNCType_LOCAL,
+				WebsocketURI: "wss://example.com",
+			},
+		},
+		VNCPassword: "super-secret",
+	}
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
+	}
+}
