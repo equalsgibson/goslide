@@ -14,6 +14,8 @@ type Snapshot struct {
 	BackupEndedAt           time.Time          `json:"backup_ended_at"`
 	BackupStartedAt         time.Time          `json:"backup_started_at"`
 	Locations               []SnapshotLocation `json:"locations"`
+	Deleted                 *time.Time         `json:"deleted"`
+	Deletions               []SnapshotDeletion `json:"deletions"`
 	SnapshotID              string             `json:"snapshot_id"`
 	VerifyBootScreenshotURL string             `json:"verify_boot_screenshot_url"`
 	VerifyBootStatus        SnapshotBootStatus `json:"verify_boot_status"`
@@ -28,6 +30,13 @@ type SnapshotService struct {
 type SnapshotLocation struct {
 	DeviceID string               `json:"device_id"`
 	Type     SnapshotLocationType `json:"type"`
+}
+
+type SnapshotDeletion struct {
+	Deleted          time.Time            `json:"deleted"`
+	DeletedBy        string               `json:"deleted_by"`
+	FirstAndLastName string               `json:"first_and_last_name"`
+	Type             SnapshotLocationType `json:"type"`
 }
 
 type SnapshotLocationType string

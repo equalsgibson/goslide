@@ -169,15 +169,7 @@ func (v VirtualMachineRestoreService) Delete(ctx context.Context, virtID string)
 }
 
 // https://docs.slide.tech/api/#tag/restores-virtual-machine/PATCH/v1/restore/virt/{virt_id}
-func (v VirtualMachineRestoreService) Update(ctx context.Context, virtID string, state VirtualMachineState) (VirtualMachineRestore, error) {
-	type virtualMachineRestoreUpdatePayload struct {
-		State VirtualMachineState `json:"state"`
-	}
-
-	payload := virtualMachineRestoreUpdatePayload{
-		State: state,
-	}
-
+func (v VirtualMachineRestoreService) Update(ctx context.Context, virtID string, payload VirtualMachineRestoreUpdatePayload) (VirtualMachineRestore, error) {
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
 		return VirtualMachineRestore{}, err
@@ -202,6 +194,13 @@ func (v VirtualMachineRestoreService) Update(ctx context.Context, virtID string,
 	}
 
 	return target, nil
+}
+
+type VirtualMachineRestoreUpdatePayload struct {
+	State      VirtualMachineState `json:"state,omitempty"`
+	CPUCount   uint                `json:"cpu_count,omitempty"`
+	MemoryInMB uint                `json:"memory_in_mb,omitempty"`
+	ExpiresAt  time.Time           `json:"expires_at,omitempty"`
 }
 
 type VirtualMachineRestoreCreatePayload struct {

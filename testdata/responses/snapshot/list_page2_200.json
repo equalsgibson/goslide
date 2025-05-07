@@ -4,6 +4,15 @@
             "agent_id": "a_0123456789ab",
             "backup_ended_at": "2024-08-23T01:40:08Z",
             "backup_started_at": "2024-08-23T01:25:08Z",
+            "deleted": "2024-08-23T01:25:08Z",
+            "deletions": [
+                {
+                    "deleted": "2024-08-23T01:25:08Z",
+                    "deleted_by": "John Smith",
+                    "first_and_last_name": "John Smith",
+                    "type": "local"
+                }
+            ],
             "locations": [
                 {
                     "device_id": "d_0123456789ab",

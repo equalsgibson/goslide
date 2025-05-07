@@ -70,3 +70,20 @@ func WithPath(path string) paginationQueryParam {
 		u.Set("path", url.QueryEscape(path))
 	}
 }
+
+func WithSnapshotLocationFilter(snapshotLocation SnapshotLocationFilter) paginationQueryParam {
+	return func(u url.Values) {
+		u.Set("snapshot_location", url.QueryEscape(string(snapshotLocation)))
+	}
+}
+
+type SnapshotLocationFilter string
+
+const (
+	SnapshotLocationFilter_EXISTS_LOCAL             SnapshotLocationFilter = "exists_local"
+	SnapshotLocationFilter_EXISTS_CLOUD             SnapshotLocationFilter = "exists_cloud"
+	SnapshotLocationFilter_EXISTS_DELETED           SnapshotLocationFilter = "exists_deleted"
+	SnapshotLocationFilter_EXISTS_DELETED_RETENTION SnapshotLocationFilter = "exists_deleted_retention"
+	SnapshotLocationFilter_EXISTS_DELETED_MANUAL    SnapshotLocationFilter = "exists_deleted_manual"
+	SnapshotLocationFilter_EXISTS_DELETED_OTHER     SnapshotLocationFilter = "exists_deleted_other"
+)
