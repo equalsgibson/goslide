@@ -8,6 +8,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestUser_List(t *testing.T) {
@@ -105,7 +106,7 @@ func TestUser_Get(t *testing.T) {
 		UserID:      userID,
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }

@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestAlert_List(t *testing.T) {
@@ -105,8 +106,8 @@ func TestAlert_Update(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -139,10 +140,9 @@ func TestAlert_Update(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
-
 }
 
 func TestAlert_Get(t *testing.T) {
@@ -201,8 +201,8 @@ func TestAlert_Get(t *testing.T) {
 
 	actual.ResolvedAt = expected.ResolvedAt
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 
@@ -246,7 +246,7 @@ func TestAlert_GetUnresolved(t *testing.T) {
 		DeviceID:    "d_0123456789ab",
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }

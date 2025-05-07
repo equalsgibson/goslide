@@ -105,22 +105,18 @@ func (f *TestResponseNoContent) CreateResponse() (*http.Response, error) {
 
 func ServeAndValidate(t *testing.T, r TestResponse, expected ExpectedTestRequest) TestRoundTripFunc {
 	return func(t *testing.T, request *http.Request) (*http.Response, error) {
-		if expected.Method != request.Method {
-			t.Logf("expected request method and actual request method do not match - expected: %s, actual: %s", expected.Method, request.Method)
+		if diff := cmp.Diff(expected.Method, request.Method); diff != "" {
+			t.Logf("%s Request Method mismatch (-want +got):\n%s", t.Name(), diff)
 			t.Fail()
 		}
 
-		if expected.Path != request.URL.Path {
-			t.Logf("expected request URL Path and actual request URL Path do not match - expected: %s, actual: %s", expected.Path, request.URL.Path)
+		if diff := cmp.Diff(expected.Path, request.URL.Path); diff != "" {
+			t.Logf("%s Request Path mismatch (-want +got):\n%s", t.Name(), diff)
 			t.Fail()
 		}
 
-		if expected.Query == nil {
-			expected.Query = url.Values{}
-		}
-
-		if !cmp.Equal(expected.Query, request.URL.Query()) {
-			t.Logf("URL Params do not match - expected request Params: %+v, actual request Params: %+v", expected.Query, request.URL.Query())
+		if diff := cmp.Diff(expected.Query, request.URL.Query()); diff != "" {
+			t.Errorf("%s URL Parameter mismatch (-want +got):\n%s", t.Name(), diff)
 			t.Fail()
 		}
 

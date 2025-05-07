@@ -1,15 +1,14 @@
 package slide_test
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"net/http"
 	"net/url"
 	"testing"
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestSnapshot_List(t *testing.T) {
@@ -114,17 +113,7 @@ func TestSnapshot_Get(t *testing.T) {
 		VerifyFSStatus:          slide.SnapshotFSStatus_SUCCESS,
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
