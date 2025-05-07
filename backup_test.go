@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestBackup_List(t *testing.T) {
@@ -102,8 +103,8 @@ func TestBackup_StartBackup(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -155,15 +156,15 @@ func TestBackup_Get(t *testing.T) {
 	expected := slide.Backup{
 		AgentID:      "a_0123456789ab",
 		BackupID:     "b_0123456789ab",
-		EndedAt:      "2024-08-23T01:40:08Z",
+		EndedAt:      generateRFC3389FromString(t, "2024-08-23T01:40:08Z"),
 		ErrorCode:    1,
 		ErrorMessage: "string",
 		SnapshotID:   "s_0123456789ab",
-		StartedAt:    "2024-08-23T01:25:08Z",
+		StartedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		Status:       slide.BackupStatus_SUCCEEDED,
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }

@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestRestore_Image_List(t *testing.T) {
@@ -103,15 +104,15 @@ func TestRestore_Image_Get(t *testing.T) {
 
 	expected := slide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: imageExportRestoreID,
 		ImageType:     slide.ImageExportType_VHDX,
 		SnapshotID:    "s_0123456789ab",
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 
@@ -178,8 +179,8 @@ func TestRestore_Image_Create(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -203,15 +204,15 @@ func TestRestore_Image_Create(t *testing.T) {
 
 	expected := slide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
-		CreatedAt:     "2024-08-23T01:25:08Z",
+		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: "ie_0123456789ab",
 		ImageType:     slide.ImageExportType_VHDX,
 		SnapshotID:    "s_0123456789ab",
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 

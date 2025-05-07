@@ -8,11 +8,12 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type ImageExportRestore struct {
 	AgentID       string          `json:"agent_id"`
-	CreatedAt     string          `json:"created_at"`
+	CreatedAt     time.Time       `json:"created_at"`
 	DeviceID      string          `json:"device_id"`
 	ImageExportID string          `json:"image_export_id"`
 	ImageType     ImageExportType `json:"image_type"`

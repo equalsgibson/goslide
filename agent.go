@@ -8,20 +8,21 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 type Agent struct {
 	Addresses           []Address `json:"addresses"`
 	AgentID             string    `json:"agent_id"`
 	AgentVersion        string    `json:"agent_version"`
-	BootedAt            string    `json:"booted_at"`
+	BootedAt            time.Time `json:"booted_at"`
 	ClientID            string    `json:"client_id"`
 	DeviceID            string    `json:"device_id"`
 	DisplayName         string    `json:"display_name"`
 	EncryptionAlgorithm string    `json:"encryption_algorithm"`
 	FirmwareType        string    `json:"firmware_type"`
 	Hostname            string    `json:"hostname"`
-	LastSeenAt          string    `json:"last_seen_at"`
+	LastSeenAt          time.Time `json:"last_seen_at"`
 	Manufacturer        string    `json:"manufacturer"`
 	OS                  string    `json:"os"`
 	OSVersion           string    `json:"os_version"`

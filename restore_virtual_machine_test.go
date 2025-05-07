@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestRestore_Virtual_Machine_List(t *testing.T) {
@@ -103,10 +104,10 @@ func TestRestore_Virtual_Machine_Get(t *testing.T) {
 	expected := slide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
-		CreatedAt:    "2024-08-23T01:25:08Z",
+		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:     "d_0123456789ab",
 		DiskBus:      "sata",
-		ExpiresAt:    "2024-08-23T01:25:08Z",
+		ExpiresAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		MemoryInMB:   4096,
 		NetworkModel: "e1000",
 		NetworkType:  "bridged",
@@ -124,18 +125,8 @@ func TestRestore_Virtual_Machine_Get(t *testing.T) {
 		VNCPassword: "super-secret",
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 
@@ -202,8 +193,8 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -227,10 +218,10 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 	expected := slide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
-		CreatedAt:    "2024-08-23T01:25:08Z",
+		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:     "d_0123456789ab",
 		DiskBus:      "sata",
-		ExpiresAt:    "2024-08-23T01:25:08Z",
+		ExpiresAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		MemoryInMB:   4096,
 		NetworkModel: "e1000",
 		NetworkType:  "bridged",
@@ -248,18 +239,8 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 		VNCPassword: "super-secret",
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 
@@ -296,8 +277,8 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -329,10 +310,10 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 	expected := slide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
-		CreatedAt:    "2024-08-23T01:25:08Z",
+		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:     "d_0123456789ab",
 		DiskBus:      "sata",
-		ExpiresAt:    "2024-08-23T01:25:08Z",
+		ExpiresAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		MemoryInMB:   4096,
 		NetworkModel: "e1000",
 		NetworkType:  "bridged",
@@ -350,17 +331,7 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 		VNCPassword: "super-secret",
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }

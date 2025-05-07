@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestDevice_List(t *testing.T) {
@@ -110,14 +111,14 @@ func TestDevice_Get(t *testing.T) {
 				MAC: "62:bb:d3:0d:db:7d",
 			},
 		},
-		BootedAt:              "2024-08-23T01:25:08Z",
+		BootedAt:              generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		ClientID:              "…",
 		DeviceID:              deviceID,
 		DisplayName:           "My First Device",
 		HardwareModelName:     "Slide Z1, 1 TB",
 		Hostname:              "my-hostname-1",
 		ImageVersion:          "1.0.0",
-		LastSeenAt:            "2024-08-23T01:25:08Z",
+		LastSeenAt:            generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		NFR:                   false,
 		PackageVersion:        "1.2.3",
 		PublicIPAddress:       "74.83.124.111",
@@ -129,18 +130,8 @@ func TestDevice_Get(t *testing.T) {
 		StorageUsedBytes:      274877906944,
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
 
@@ -179,8 +170,8 @@ func TestDevice_Update(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -210,14 +201,14 @@ func TestDevice_Update(t *testing.T) {
 				MAC: "62:bb:d3:0d:db:7d",
 			},
 		},
-		BootedAt:              "2024-08-23T01:25:08Z",
+		BootedAt:              generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		ClientID:              "…",
 		DeviceID:              deviceID,
 		DisplayName:           "My Device",
 		HardwareModelName:     "Slide Z1, 1 TB",
 		Hostname:              "my-device",
 		ImageVersion:          "1.0.0",
-		LastSeenAt:            "2024-08-23T01:25:08Z",
+		LastSeenAt:            generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		NFR:                   false,
 		PackageVersion:        "1.2.3",
 		PublicIPAddress:       "74.83.124.111",
@@ -229,17 +220,7 @@ func TestDevice_Update(t *testing.T) {
 		StorageUsedBytes:      274877906944,
 	}
 
-	expectedBytes, err := json.Marshal(expected)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	actualBytes, err := json.Marshal(actual)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if !bytes.Equal(expectedBytes, actualBytes) {
-		t.Fatalf("expected did not match actual result: expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }

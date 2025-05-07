@@ -13,6 +13,7 @@ import (
 
 	"github.com/equalsgibson/slide"
 	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestAlert_List(t *testing.T) {
@@ -105,8 +106,8 @@ func TestAlert_Update(t *testing.T) {
 									return fmt.Errorf("error during test setup - could not format request body: %w", err)
 								}
 
-								if !bytes.Equal(expectedBody, actualBodyFormatted.Bytes()) {
-									return fmt.Errorf("request body does not match expected request format - expected: %v, actual: %v", string(expectedBody), actualBodyFormatted.String())
+								if diff := cmp.Diff(string(expectedBody), actualBodyFormatted.String()); diff != "" {
+									t.Fatalf("%s Expected Request Body mismatch (-want +got):\n%s", t.Name(), diff)
 								}
 
 								return nil
@@ -118,15 +119,17 @@ func TestAlert_Update(t *testing.T) {
 		),
 	)
 
+	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
+
 	expected := slide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
 		AlertID:     alertID,
 		AlertType:   "device_not_checking_in",
-		CreatedAt:   "2024-08-23T01:25:08Z",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
 		Resolved:    true,
-		ResolvedAt:  "2024-08-23T01:25:08Z",
+		ResolvedAt:  &resolvedTime,
 		ResolvedBy:  "John Smith",
 	}
 
@@ -137,10 +140,9 @@ func TestAlert_Update(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if expected != actual {
-		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
-
 }
 
 func TestAlert_Get(t *testing.T) {
@@ -174,19 +176,77 @@ func TestAlert_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
+
 	expected := slide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
 		AlertID:     alertID,
 		AlertType:   "device_not_checking_in",
-		CreatedAt:   "2024-08-23T01:25:08Z",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:    "d_0123456789ab",
-		Resolved:    false,
-		ResolvedAt:  "2024-08-23T01:25:08Z",
+		Resolved:    true,
+		ResolvedAt:  &resolvedTime,
 		ResolvedBy:  "John Smith",
 	}
 
-	if expected != actual {
+	if actual.ResolvedAt == nil {
+
 		t.Fatalf("expected: %v, actual: %v", expected, actual)
+	}
+
+	if *actual.ResolvedAt != *expected.ResolvedAt {
+		t.Fatalf("did not get expected timestamp - expected: %v, actual: %v", *actual.ResolvedAt, *expected.ResolvedAt)
+	}
+
+	actual.ResolvedAt = expected.ResolvedAt
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
+	}
+}
+
+func TestAlert_GetUnresolved(t *testing.T) {
+	alertID := "al_0123456789ab"
+
+	testService := slide.NewService("fakeToken",
+		slide.WithCustomRoundtripper(
+			roundtripper.NetworkQueue(
+				t,
+				[]roundtripper.TestRoundTripFunc{
+					roundtripper.ServeAndValidate(
+						t,
+						&roundtripper.TestResponseFile{
+							StatusCode: http.StatusOK,
+							FilePath:   "testdata/responses/alert/get_unresolved_200.json",
+						},
+						roundtripper.ExpectedTestRequest{
+							Method: http.MethodGet,
+							Path:   "/v1/alert/" + alertID,
+							Query:  url.Values{},
+						},
+					),
+				},
+			),
+		),
+	)
+
+	ctx := context.Background()
+	actual, err := testService.Alerts().Get(ctx, alertID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	expected := slide.Alert{
+		AgentID:     "a_0123456789ab",
+		AlertFields: "string",
+		AlertID:     alertID,
+		AlertType:   "device_not_checking_in",
+		CreatedAt:   generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
+		DeviceID:    "d_0123456789ab",
+	}
+
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Fatalf("%s Returned struct mismatch (-want +got):\n%s", t.Name(), diff)
 	}
 }
