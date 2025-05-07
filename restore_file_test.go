@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestRestore_File_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestRestore_File_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.FileRestore{}
+	actual := []goslide.FileRestore{}
 
 	ctx := context.Background()
 	if err := testService.FileRestores().List(ctx,
-		func(response slide.ListResponse[slide.FileRestore]) error {
+		func(response goslide.ListResponse[goslide.FileRestore]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestRestore_File_List(t *testing.T) {
 func TestRestore_File_Get(t *testing.T) {
 	fileRestoreID := "fr_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -102,7 +102,7 @@ func TestRestore_File_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.FileRestore{
+	expected := goslide.FileRestore{
 		AgentID:       "a_0123456789ab",
 		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
@@ -119,8 +119,8 @@ func TestRestore_File_Get(t *testing.T) {
 func TestRestore_File_Delete(t *testing.T) {
 	fileRestoreID := "fr_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -147,8 +147,8 @@ func TestRestore_File_Delete(t *testing.T) {
 }
 
 func TestRestore_File_Create(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -193,7 +193,7 @@ func TestRestore_File_Create(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.FileRestores().Create(ctx, slide.FileRestorePayload{
+	actual, err := testService.FileRestores().Create(ctx, goslide.FileRestorePayload{
 		DeviceID:   "d_0123456789ab",
 		SnapshotID: "s_0123456789ab",
 	})
@@ -201,7 +201,7 @@ func TestRestore_File_Create(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.FileRestore{
+	expected := goslide.FileRestore{
 		AgentID:       "a_0123456789ab",
 		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
@@ -217,8 +217,8 @@ func TestRestore_File_Create(t *testing.T) {
 
 func TestRestore_File_Browse(t *testing.T) {
 	fileRestoreID := "fr_0123456789ab"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -253,13 +253,13 @@ func TestRestore_File_Browse(t *testing.T) {
 		),
 	)
 
-	actual := []slide.FileRestoreData{}
+	actual := []goslide.FileRestoreData{}
 
 	ctx := context.Background()
 	if err := testService.FileRestores().Browse(
 		ctx,
 		fileRestoreID,
-		func(response slide.ListResponse[slide.FileRestoreData]) error {
+		func(response goslide.ListResponse[goslide.FileRestoreData]) error {
 			actual = append(actual, response.Data...)
 
 			return nil

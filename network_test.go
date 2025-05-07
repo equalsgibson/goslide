@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestNetwork_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestNetwork_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Network{}
+	actual := []goslide.Network{}
 
 	ctx := context.Background()
 	if err := testService.Networks().List(ctx,
-		func(response slide.ListResponse[slide.Network]) error {
+		func(response goslide.ListResponse[goslide.Network]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestNetwork_List(t *testing.T) {
 func TestNetwork_Get(t *testing.T) {
 	networkID := "net_012345"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -96,7 +96,7 @@ func TestNetwork_Get(t *testing.T) {
 		),
 	)
 
-	expected := slide.Network{
+	expected := goslide.Network{
 		BridgeDeviceID: "d_0123456789ab",
 		ClientID:       "string",
 		Comments:       "This is a test network",
@@ -111,7 +111,7 @@ func TestNetwork_Get(t *testing.T) {
 		Nameservers:    "1.1.1.1,1.0.0.1",
 		NetworkID:      "net_012345",
 		RouterPrefix:   "10.0.0.1/24",
-		Type:           slide.NetworkTypeDisaster_STANDARD,
+		Type:           goslide.NetworkTypeDisaster_STANDARD,
 	}
 
 	ctx := context.Background()
@@ -129,8 +129,8 @@ func TestNetwork_Get(t *testing.T) {
 func TestNetwork_Delete(t *testing.T) {
 	networkID := "net_012345"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -157,8 +157,8 @@ func TestNetwork_Delete(t *testing.T) {
 }
 
 func TestNetwork_Create(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -202,7 +202,7 @@ func TestNetwork_Create(t *testing.T) {
 		),
 	)
 
-	expected := slide.Network{
+	expected := goslide.Network{
 		BridgeDeviceID: "d_0123456789ab",
 		ClientID:       "string",
 		Comments:       "This is a test network",
@@ -217,14 +217,14 @@ func TestNetwork_Create(t *testing.T) {
 		Nameservers:    "1.1.1.1,1.0.0.1",
 		NetworkID:      "net_012345",
 		RouterPrefix:   "10.0.0.1/24",
-		Type:           slide.NetworkTypeDisaster_BRIDGE_LAN,
+		Type:           goslide.NetworkTypeDisaster_BRIDGE_LAN,
 	}
 
 	ctx := context.Background()
 
-	actual, err := testService.Networks().Create(ctx, slide.NetworkCreatePayload{
+	actual, err := testService.Networks().Create(ctx, goslide.NetworkCreatePayload{
 		Name: "Bridge to LAN Network",
-		Type: slide.NetworkTypeDisaster_BRIDGE_LAN,
+		Type: goslide.NetworkTypeDisaster_BRIDGE_LAN,
 	})
 	if err != nil {
 		t.Fatal(err)

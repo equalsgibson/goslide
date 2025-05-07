@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestDevice_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestDevice_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Device{}
+	actual := []goslide.Device{}
 
 	ctx := context.Background()
 	if err := testService.Devices().List(ctx,
-		func(response slide.ListResponse[slide.Device]) error {
+		func(response goslide.ListResponse[goslide.Device]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestDevice_List(t *testing.T) {
 func TestDevice_Get(t *testing.T) {
 	deviceID := "d_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -102,8 +102,8 @@ func TestDevice_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Device{
-		Addresses: []slide.Address{
+	expected := goslide.Device{
+		Addresses: []goslide.Address{
 			{
 				IPs: []string{
 					"192.168.1.104",
@@ -138,8 +138,8 @@ func TestDevice_Get(t *testing.T) {
 func TestDevice_Update(t *testing.T) {
 	deviceID := "d_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -184,7 +184,7 @@ func TestDevice_Update(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.Devices().Update(ctx, deviceID, slide.DevicePayload{
+	actual, err := testService.Devices().Update(ctx, deviceID, goslide.DevicePayload{
 		DisplayName: "My Device",
 		Hostname:    "my-device",
 	})
@@ -192,8 +192,8 @@ func TestDevice_Update(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Device{
-		Addresses: []slide.Address{
+	expected := goslide.Device{
+		Addresses: []goslide.Address{
 			{
 				IPs: []string{
 					"192.168.1.104",

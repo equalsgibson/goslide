@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestRestore_Virtual_Machine_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestRestore_Virtual_Machine_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.VirtualMachineRestore{}
+	actual := []goslide.VirtualMachineRestore{}
 
 	ctx := context.Background()
 	if err := testService.VirtualMachineRestores().List(ctx,
-		func(response slide.ListResponse[slide.VirtualMachineRestore]) error {
+		func(response goslide.ListResponse[goslide.VirtualMachineRestore]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -73,8 +73,8 @@ func TestRestore_Virtual_Machine_List(t *testing.T) {
 
 func TestRestore_Virtual_Machine_Get(t *testing.T) {
 	virtualMachineRestoreID := "virt_0123456789ab"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -101,7 +101,7 @@ func TestRestore_Virtual_Machine_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.VirtualMachineRestore{
+	expected := goslide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
 		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -114,11 +114,11 @@ func TestRestore_Virtual_Machine_Get(t *testing.T) {
 		SnapshotID:   "s_0123456789ab",
 		State:        "running",
 		VirtID:       "virt_0123456789ab",
-		VNC: []slide.VirtualMachineVNC{
+		VNC: []goslide.VirtualMachineVNC{
 			{
 				Host:         "192.168.1.53",
 				Port:         12345,
-				Type:         slide.VirtualMachineVNCType_LOCAL,
+				Type:         goslide.VirtualMachineVNCType_LOCAL,
 				WebsocketURI: "wss://example.com",
 			},
 		},
@@ -133,8 +133,8 @@ func TestRestore_Virtual_Machine_Get(t *testing.T) {
 func TestRestore_Virtual_Machine_Delete(t *testing.T) {
 	virtualMachineRestoreID := "virt_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -161,8 +161,8 @@ func TestRestore_Virtual_Machine_Delete(t *testing.T) {
 }
 
 func TestRestore_Virtual_Machine_Create(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -207,7 +207,7 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.VirtualMachineRestores().Create(ctx, slide.VirtualMachineRestoreCreatePayload{
+	actual, err := testService.VirtualMachineRestores().Create(ctx, goslide.VirtualMachineRestoreCreatePayload{
 		DeviceID:   "d_0123456789ab",
 		SnapshotID: "s_0123456789ab",
 	})
@@ -215,7 +215,7 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.VirtualMachineRestore{
+	expected := goslide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
 		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -228,11 +228,11 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 		SnapshotID:   "s_0123456789ab",
 		State:        "running",
 		VirtID:       "virt_0123456789ab",
-		VNC: []slide.VirtualMachineVNC{
+		VNC: []goslide.VirtualMachineVNC{
 			{
 				Host:         "192.168.1.53",
 				Port:         12345,
-				Type:         slide.VirtualMachineVNCType_LOCAL,
+				Type:         goslide.VirtualMachineVNCType_LOCAL,
 				WebsocketURI: "wss://example.com",
 			},
 		},
@@ -245,8 +245,8 @@ func TestRestore_Virtual_Machine_Create(t *testing.T) {
 }
 
 func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -291,23 +291,23 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.VirtualMachineRestores().Create(ctx, slide.VirtualMachineRestoreCreatePayload{
+	actual, err := testService.VirtualMachineRestores().Create(ctx, goslide.VirtualMachineRestoreCreatePayload{
 		DeviceID:   "d_0123456789ab",
 		SnapshotID: "s_0123456789ab",
-		BootMods: []slide.BootMod{
-			slide.BootMod_PASSWORDLESS_ADMIN_USER,
+		BootMods: []goslide.BootMod{
+			goslide.BootMod_PASSWORDLESS_ADMIN_USER,
 		},
 		CPUCount:     2,
-		DiskBus:      slide.DiskBus_SATA,
+		DiskBus:      goslide.DiskBus_SATA,
 		MemoryInMB:   4096,
-		NetworkModel: slide.VirtualMachineNetworkModel_E1000,
-		NetworkType:  slide.VirtualMachineNetworkType_BRIDGE,
+		NetworkModel: goslide.VirtualMachineNetworkModel_E1000,
+		NetworkType:  goslide.VirtualMachineNetworkType_BRIDGE,
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := slide.VirtualMachineRestore{
+	expected := goslide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
 		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -320,11 +320,11 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 		SnapshotID:   "s_0123456789ab",
 		State:        "running",
 		VirtID:       "virt_0123456789ab",
-		VNC: []slide.VirtualMachineVNC{
+		VNC: []goslide.VirtualMachineVNC{
 			{
 				Host:         "192.168.1.53",
 				Port:         12345,
-				Type:         slide.VirtualMachineVNCType_LOCAL,
+				Type:         goslide.VirtualMachineVNCType_LOCAL,
 				WebsocketURI: "wss://example.com",
 			},
 		},
@@ -338,8 +338,8 @@ func TestRestore_Virtual_Machine_Create_With_Options(t *testing.T) {
 
 func TestRestore_Virtual_Machine_Update(t *testing.T) {
 	virtID := "virt_0123456789ab"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -384,8 +384,8 @@ func TestRestore_Virtual_Machine_Update(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.VirtualMachineRestores().Update(ctx, virtID, slide.VirtualMachineRestoreUpdatePayload{
-		State:      slide.VirtualMachineState_RUNNING,
+	actual, err := testService.VirtualMachineRestores().Update(ctx, virtID, goslide.VirtualMachineRestoreUpdatePayload{
+		State:      goslide.VirtualMachineState_RUNNING,
 		CPUCount:   2,
 		MemoryInMB: 4096,
 		ExpiresAt:  generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -394,7 +394,7 @@ func TestRestore_Virtual_Machine_Update(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.VirtualMachineRestore{
+	expected := goslide.VirtualMachineRestore{
 		AgentID:      "a_0123456789ab",
 		CPUCount:     2,
 		CreatedAt:    generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
@@ -407,11 +407,11 @@ func TestRestore_Virtual_Machine_Update(t *testing.T) {
 		SnapshotID:   "s_0123456789ab",
 		State:        "running",
 		VirtID:       "virt_0123456789ab",
-		VNC: []slide.VirtualMachineVNC{
+		VNC: []goslide.VirtualMachineVNC{
 			{
 				Host:         "192.168.1.53",
 				Port:         12345,
-				Type:         slide.VirtualMachineVNCType_LOCAL,
+				Type:         goslide.VirtualMachineVNCType_LOCAL,
 				WebsocketURI: "wss://example.com",
 			},
 		},

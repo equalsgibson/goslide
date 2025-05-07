@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/equalsgibson/slide"
+	"github.com/equalsgibson/goslide"
 )
 
 /**
@@ -31,7 +31,7 @@ func main() {
 
 	// * NOTE:
 	// If you do not want to make actual network requests, include a custom roundtripper, similar to the example below
-	// slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n"), slide.WithCustomRoundtripper(
+	// slideService := goslide.NewService(strings.TrimSuffix(slideAuthToken, "\n"), goslide.WithCustomRoundtripper(
 	// 	roundtripper.MockNetworkQueue(
 	// 		[]roundtripper.MockRoundTripFunc{
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
@@ -46,15 +46,15 @@ func main() {
 	// 	),
 	// ))
 
-	// Create the slide service by calling slide.NewService
-	slideService := slide.NewService(slideAuthToken)
+	// Create the slide service by calling goslide.NewService
+	slideService := goslide.NewService(slideAuthToken)
 
 	fmt.Println("Querying Slide API for devices...")
 
 	ctx := context.Background()
 
-	slideDevices := []slide.Device{}
-	if err := slideService.Devices().List(ctx, func(response slide.ListResponse[slide.Device]) error {
+	slideDevices := []goslide.Device{}
+	if err := slideService.Devices().List(ctx, func(response goslide.ListResponse[goslide.Device]) error {
 		slideDevices = append(slideDevices, response.Data...)
 
 		return nil

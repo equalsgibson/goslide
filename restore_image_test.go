@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestRestore_Image_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestRestore_Image_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.ImageExportRestore{}
+	actual := []goslide.ImageExportRestore{}
 
 	ctx := context.Background()
 	if err := testService.ImageExportRestores().List(ctx,
-		func(response slide.ListResponse[slide.ImageExportRestore]) error {
+		func(response goslide.ListResponse[goslide.ImageExportRestore]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestRestore_Image_List(t *testing.T) {
 func TestRestore_Image_Get(t *testing.T) {
 	imageExportRestoreID := "ie_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -102,12 +102,12 @@ func TestRestore_Image_Get(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.ImageExportRestore{
+	expected := goslide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
 		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: imageExportRestoreID,
-		ImageType:     slide.ImageExportType_VHDX,
+		ImageType:     goslide.ImageExportType_VHDX,
 		SnapshotID:    "s_0123456789ab",
 	}
 
@@ -119,8 +119,8 @@ func TestRestore_Image_Get(t *testing.T) {
 func TestRestore_Image_Delete(t *testing.T) {
 	imageExportRestoreID := "ie_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -147,8 +147,8 @@ func TestRestore_Image_Delete(t *testing.T) {
 }
 
 func TestRestore_Image_Create(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -193,21 +193,21 @@ func TestRestore_Image_Create(t *testing.T) {
 	)
 
 	ctx := context.Background()
-	actual, err := testService.ImageExportRestores().Create(ctx, slide.ImageExportRestorePayload{
+	actual, err := testService.ImageExportRestores().Create(ctx, goslide.ImageExportRestorePayload{
 		DeviceID:   "d_0123456789ab",
-		ImageType:  slide.ImageExportType_VHDX,
+		ImageType:  goslide.ImageExportType_VHDX,
 		SnapshotID: "s_0123456789ab",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	expected := slide.ImageExportRestore{
+	expected := goslide.ImageExportRestore{
 		AgentID:       "a_0123456789ab",
 		CreatedAt:     generateRFC3389FromString(t, "2024-08-23T01:25:08Z"),
 		DeviceID:      "d_0123456789ab",
 		ImageExportID: "ie_0123456789ab",
-		ImageType:     slide.ImageExportType_VHDX,
+		ImageType:     goslide.ImageExportType_VHDX,
 		SnapshotID:    "s_0123456789ab",
 	}
 
@@ -218,8 +218,8 @@ func TestRestore_Image_Create(t *testing.T) {
 
 func TestRestore_Image_Browse(t *testing.T) {
 	imageExportRestoreID := "ie_0123456789ab"
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -254,13 +254,13 @@ func TestRestore_Image_Browse(t *testing.T) {
 		),
 	)
 
-	actual := []slide.ImageExportRestoreData{}
+	actual := []goslide.ImageExportRestoreData{}
 
 	ctx := context.Background()
 	if err := testService.ImageExportRestores().Browse(
 		ctx,
 		imageExportRestoreID,
-		func(response slide.ListResponse[slide.ImageExportRestoreData]) error {
+		func(response goslide.ListResponse[goslide.ImageExportRestoreData]) error {
 			actual = append(actual, response.Data...)
 
 			return nil

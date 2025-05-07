@@ -1,4 +1,4 @@
-package slide
+package goslide
 
 import (
 	"fmt"

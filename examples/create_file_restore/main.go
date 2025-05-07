@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/equalsgibson/slide"
+	"github.com/equalsgibson/goslide"
 )
 
 /**
@@ -48,7 +48,7 @@ func main() {
 
 	// * NOTE:
 	// If you do not want to make actual network requests, include a custom roundtripper, similar to the example below
-	// slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n"), slide.WithCustomRoundtripper(
+	// slideService := goslide.NewService(strings.TrimSuffix(slideAuthToken, "\n"), goslide.WithCustomRoundtripper(
 	// 	roundtripper.MockNetworkQueue(
 	// 		[]roundtripper.MockRoundTripFunc{
 	// 			roundtripper.Serve(&roundtripper.MockResponseFile{
@@ -75,14 +75,14 @@ func main() {
 	// 	),
 	// ))
 
-	slideService := slide.NewService(strings.TrimSuffix(slideAuthToken, "\n"))
+	slideService := goslide.NewService(strings.TrimSuffix(slideAuthToken, "\n"))
 
 	ctx := context.Background()
 
 	fmt.Println("Querying Slide API for agents...")
 
-	agents := []slide.Agent{}
-	if err := slideService.Agents().List(ctx, func(response slide.ListResponse[slide.Agent]) error {
+	agents := []goslide.Agent{}
+	if err := slideService.Agents().List(ctx, func(response goslide.ListResponse[goslide.Agent]) error {
 		agents = append(agents, response.Data...)
 
 		return nil
@@ -117,15 +117,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	snapshots := []slide.Snapshot{}
+	snapshots := []goslide.Snapshot{}
 	if err := slideService.Snapshots().ListWithQueryParameters(
 		ctx,
-		func(response slide.ListResponse[slide.Snapshot]) error {
+		func(response goslide.ListResponse[goslide.Snapshot]) error {
 			snapshots = append(snapshots, response.Data...)
 
 			return nil
 		},
-		slide.WithAgentID(agents[agentIDInt].AgentID),
+		goslide.WithAgentID(agents[agentIDInt].AgentID),
 	); err != nil {
 		fmt.Printf("Encountered error while querying snapshots for agent (%s) from Slide API: %s\n", agents[agentIDInt].AgentID, err.Error())
 
@@ -159,7 +159,7 @@ func main() {
 
 	fmt.Printf("Creating a File Restore for the following Agent and Snapshot:\n\n\tAgent:\t%s\n\tSnapshot:\t%s\n\tDevice:\t%s\n", agents[agentIDInt].AgentID, snapshots[snapshotIDInt].SnapshotID, agents[agentIDInt].DeviceID)
 
-	fileRestore, err := slideService.FileRestores().Create(ctx, slide.FileRestorePayload{
+	fileRestore, err := slideService.FileRestores().Create(ctx, goslide.FileRestorePayload{
 		DeviceID:   agents[agentIDInt].DeviceID,
 		SnapshotID: snapshots[snapshotIDInt].SnapshotID,
 	})

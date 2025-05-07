@@ -1,4 +1,4 @@
-module github.com/equalsgibson/slide
+module github.com/equalsgibson/goslide
 
 go 1.23.3
 

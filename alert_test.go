@@ -1,4 +1,4 @@
-package slide_test
+package goslide_test
 
 import (
 	"bytes"
@@ -11,14 +11,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/equalsgibson/slide"
-	"github.com/equalsgibson/slide/internal/roundtripper"
+	"github.com/equalsgibson/goslide"
+	"github.com/equalsgibson/goslide/internal/roundtripper"
 	"github.com/google/go-cmp/cmp"
 )
 
 func TestAlert_List(t *testing.T) {
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -53,11 +53,11 @@ func TestAlert_List(t *testing.T) {
 		),
 	)
 
-	actual := []slide.Alert{}
+	actual := []goslide.Alert{}
 
 	ctx := context.Background()
 	if err := testService.Alerts().List(ctx,
-		func(response slide.ListResponse[slide.Alert]) error {
+		func(response goslide.ListResponse[goslide.Alert]) error {
 			actual = append(actual, response.Data...)
 
 			return nil
@@ -74,8 +74,8 @@ func TestAlert_List(t *testing.T) {
 func TestAlert_Update(t *testing.T) {
 	alertID := "al_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -121,7 +121,7 @@ func TestAlert_Update(t *testing.T) {
 
 	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
 
-	expected := slide.Alert{
+	expected := goslide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
 		AlertID:     alertID,
@@ -148,8 +148,8 @@ func TestAlert_Update(t *testing.T) {
 func TestAlert_Get(t *testing.T) {
 	alertID := "al_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -178,7 +178,7 @@ func TestAlert_Get(t *testing.T) {
 
 	resolvedTime := generateRFC3389FromString(t, "2024-08-23T01:25:08Z")
 
-	expected := slide.Alert{
+	expected := goslide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
 		AlertID:     alertID,
@@ -209,8 +209,8 @@ func TestAlert_Get(t *testing.T) {
 func TestAlert_GetUnresolved(t *testing.T) {
 	alertID := "al_0123456789ab"
 
-	testService := slide.NewService("fakeToken",
-		slide.WithCustomRoundtripper(
+	testService := goslide.NewService("fakeToken",
+		goslide.WithCustomRoundtripper(
 			roundtripper.NetworkQueue(
 				t,
 				[]roundtripper.TestRoundTripFunc{
@@ -237,7 +237,7 @@ func TestAlert_GetUnresolved(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	expected := slide.Alert{
+	expected := goslide.Alert{
 		AgentID:     "a_0123456789ab",
 		AlertFields: "string",
 		AlertID:     alertID,
